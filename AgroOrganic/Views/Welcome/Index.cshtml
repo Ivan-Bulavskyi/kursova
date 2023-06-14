@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Welocme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/Content/Libs/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/Libs/owl.carousel.css">
+    <link rel="stylesheet" href="~/Content/Libs/animate.css">
+    <link rel="stylesheet" href="~/Content/Pages/welcome.css">
+
+    <!--?-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+
+<div id="body">
+    @Html.Partial("_Navbar")
+    @Html.Partial("_Timer")
+    @Html.Partial("_About")
+    @Html.Partial("_Subscribe")
+    @Html.Partial("_Services")
+    @Html.Partial("_Contact")
+    @Html.Partial("_Team")
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <p>Copyright &copy; <a href="http://organicportal.in.ua">Organic Portal</a>| All right reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>       
+
+@section scripts{
+    <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+    <script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.form.js"></script>
+    <script src="~/Scripts/Libs/jquery.nav.js"></script>
+    <script src="~/Scripts/Libs/jquery.sticky.js"></script>
+    <script src="~/Scripts/Libs/plugins.js"></script>
+    <script src="~/Scripts/Libs/wow.min.js"></script>
+    <script src="~/Scripts/Pages/welcome.js"></script>
+}
+
+
+
+
+

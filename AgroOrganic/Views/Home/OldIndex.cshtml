@@ -1,0 +1,586 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Геоінформаційний портал органічного землевиробництва</h1>
+    <p class="lead">
+        Ми вирішуємо проблему відсутності централізованого порталу  інформаційного забезпечення органічного землеробства, за допомогою, якого цільова аудиторія: агробізнес, громада зможе забезпечити ринок якісними органічними продуктами харчування
+    </p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Детальніше... &raquo;</a></p>
+</div>
+
+<!--
+   Leaflet map example
+
+<div class="container" ng-controller="editMapController">
+    <leaflet defaults="leafletDefaults" center="leafletCenter" bounds="leafletBounds" markers="leafletMarkers" controls="leafletDraw" width="auto" height="700px" id="leafletMap"></leaflet>
+</div>
+-->
+
+
+<div class="row">
+
+    <div class="span12">
+        <section id="example">
+            <div class="page-header">
+                <h1>Карта</h1>
+            </div>
+
+            <div class="row">
+                <div class="span3">
+                    <div class="btn-group-vertical" role="group" aria-label="...">
+                        
+                        <!--
+                            <label class="checkbox"><input type="checkbox" value="" id="cadastr_check" onchange="toggleCadastre(this)">
+                           Кадастрова карта
+                        </label>
+                        
+                        <label class="checkbox">
+                            <input type="checkbox" value=""> Option one is this and that—be sure to inclu
+                        </label>
+                        -->
+                            <button type="button" class="btn btn-default">Кадастрова карта</button>
+                            <button type="button" class="btn btn-default">Гумус (вміст %, мг/кг) </button>
+                            <button type="button" class="btn btn-default">Азот (вміст %, мг/кг) </button>
+                            <button type="button" class="btn btn-default">Фосфор (вміст %, мг/кг) </button>
+                            <button type="button" class="btn btn-default">Калій (вміст %, мг/кг) </button>
+
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Поверхневі та підземні водні ресурси
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Поверхневі (річки, озера, болота...)</a></li>
+                                    <li><a href="#">Підземні (рівні грунтових та артезіанських вод)</a></li>
+                                </ul>
+                            </div>
+                            <button type="button" class="btn btn-default">Мікроелементи</button>
+                            <button type="button" class="btn btn-default">Радіонукліди</button>
+                            <button type="button" class="btn btn-default">Кислотність</button>
+                            <button type="button" class="btn btn-default">Інтегральний показник</button>
+                            <button type="button" class="btn btn-default">Придатність для органіки</button>
+                            <button type="button" class="btn btn-default">Економічна ефективність</button>
+</div>
+                </div>
+                <div class="span8">
+
+                    <div class="control-group">
+                        <div class="controls controls-row">
+                            <div class="btn-group" style="margin-bottom: 10px;">
+                                <button id="layerdropdown" data-toggle="dropdownform" class="btn dropdownform-toggle">
+                                    <i class="icon-align-justify"></i>
+                                    <span class="caret">
+                                    </span>
+                                </button>
+                                <ul class="dropdown-form" style="width: 830px;">
+                                    <li>
+                                        <div class="row" style="">
+
+                                            <!-- Layer Dialog begin -->
+                                            <div class="span4" style="margin-left: 60px; max-height:360px; overflow-y: auto;">
+
+                                                Interactive layers
+                                                <ul class="nav nav-list bs-docs-sidenav geomanager-layers" style="width: auto; min-height:30px; border: 1px solid #DDDDDD; padding:8px; margin:0;" data-geomanager-interactivelayers="geoman0">
+                                                    <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.GoogleIdentify", "title":"Google Identify"}'>
+                                                        <a class="clearfix" href="#">Google Identify</a>
+                                                    </li>
+
+                                                </ul>
+
+                                                Overlays
+
+                                                <ul class="nav nav-list bs-docs-sidenav geomanager-layers" style="width: auto; min-height:30px; border: 1px solid #DDDDDD; padding:8px; margin:0;" data-geomanager-overlays="geoman0">
+
+
+                                                    <li id="overlay1" data-geomanager-type="overlays" data-geomanager-options='{"providername":"L.GeoManager.UACadastre", "title":"UACadastre Overlay"}'>
+                                                        <a class="clearfix" href="#">UACadastre Overlay</a>
+                                                    </li>
+                                                </ul>
+
+                                    Base layers
+
+                                    <ul class="nav nav-list bs-docs-sidenav geomanager-layers" style="width: auto; min-height:30px; border: 1px solid #DDDDDD; padding:8px; margin:0;" data-geomanager-baselayers="geoman0">
+
+                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OSM", "title":"OpenStreetMap"}'>
+                                            <a class="clearfix" href="#">OpenStreetMap</a>
+                                        </li>
+
+                                    </ul>
+
+
+</div>
+
+                                            <div class="span4">
+
+
+                                                <div style="min-height:60px; max-height:360px; overflow-y: auto;">
+
+                                                    <div class="accordion" data-geomanager-sourcelayers="geoman0">
+                                                        <div class="accordion-group">
+                                                            <div class="accordion-heading">
+                                                                <a class="accordion-toggle" data-toggle="collapse" href="#interactivelayers">
+                                                                    Interactive layers
+                                                                </a>
+                                                            </div>
+                                                            <div id="interactivelayers" class="accordion-body collapse in">
+                                                                <div class="accordion-inner" style="padding:0;">
+
+                                                                    <ul class="nav nav-list bs-docs-sidenav" style="width: auto; padding:8px; margin:0;">
+
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.OSMIdentify", "title":"OpenStreetMap Identify"}'>
+                                                                            <a class="clearfix" href="#">OpenStreetMap Identify</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.GoogleIdentify", "title":"Google Identify"}'>
+                                                                            <a class="clearfix" href="#">Google Identify</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.BingIdentify", "title":"Bing Identify"}'>
+                                                                            <a class="clearfix" href="#">Bing Identify</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.YandexIdentify", "title":"Yandex Identify"}'>
+                                                                            <a class="clearfix" href="#">Yandex Identify</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.WikimapiaInteractive", "title":"Wikimapia Iteractive"}'>
+                                                                            <a class="clearfix" href="#">Wikimapia Iteractive</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.RUCadastreIdentify", "title":"RUCadastre Identify"}'>
+                                                                            <a class="clearfix" href="#">RUCadastre Identify</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="interactivelayers" data-geomanager-options='{"providername":"L.GeoManager.UACadastreIdentify", "title":"UACadastre Identify"}'>
+                                                                            <a class="clearfix" href="#">UACadastre Identify</a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="accordion-group">
+                                                            <div class="accordion-heading">
+                                                                <a class="accordion-toggle" data-toggle="collapse" href="#overlays">
+                                                                    Overlays
+                                                                </a>
+                                                            </div>
+                                                            <div id="overlays" class="accordion-body collapse">
+                                                                <div class="accordion-inner" style="padding:0;">
+
+                                                                    <ul class="nav nav-list bs-docs-sidenav" style="width: auto; padding:8px; margin:0;">
+
+                                                                        <!--             <li data-geomanager-provider="arcgis" data-geomanager-options='{"title":"White background", "sublayers":{"list":["0","1","2"]}}'>
+                                                                        <a class="clearfix"  href="#" >ArcGIS WMS</a>
+                                                                    </li> -->
+
+                                                                        <li data-geomanager-type="overlays" data-geomanager-options='{"providername":"L.GeoManager.ArcGIS_EPSG900913_Overlay", "title":"RuCadastre Overlay", "url":"http://maps.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer"}'>
+                                                                            <a class="clearfix" href="#">RUCadastre Overlay</a>
+                                                                        </li>
+
+                                                                        <li data-geomanager-type="overlays" data-geomanager-options='{"providername":"L.GeoManager.UACadastre", "title":"UACadastre Overlay"}'>
+                                                                            <a class="clearfix" href="#">UACadastre Overlay</a>
+                                                                        </li>
+
+                                                                        <li data-geomanager-type="overlays" data-geomanager-options='{"providername":"L.GeoManager.WikimapiaOverlay", "title":"Wikimapia Overlay"}'>
+                                                                            <a class="clearfix" href="#">Wikimapia Overlay</a>
+                                                                        </li>
+
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="accordion-group">
+                                                            <div class="accordion-heading">
+                                                                <a class="accordion-toggle" data-toggle="collapse" href="#baselayers">
+                                                                    Base Layers
+                                                                </a>
+                                                            </div>
+                                                            <div id="baselayers" class="accordion-body collapse">
+                                                                <div class="accordion-inner" style="padding:0;">
+
+                                                                    <ul class="nav nav-list bs-docs-sidenav" style="width: auto; padding:8px; margin:0;">
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"customProvider", "title":"Custom Provider"}'>
+                                                                            <a class="clearfix" href="#">Custom Provider</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.White", "title":"White background"}'>
+                                                                            <a class="clearfix" href="#">White background</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.Black", "title":"Black background"}'>
+                                                                            <a class="clearfix" href="#">Black background</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OSM", "title":"OpenStreetMap"}'>
+                                                                            <a class="clearfix" href="#">OpenStreetMap</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OSMBW", "title":"OpenStreetMap Black and White"}'>
+                                                                            <a class="clearfix" href="#">OpenStreetMap Black and White</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OSMCloudMade", "title":"OpenStreetMap CloudMade"}'>
+                                                                            <a class="clearfix" href="#">OpenStreetMap CloudMade</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OpenCycleMap", "title":"OpencycleMap"}'>
+                                                                            <a class="clearfix" href="#">OpencycleMap</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OpenCycleMapTransport", "title":"OpencycleMap Transport"}'>
+                                                                            <a class="clearfix" href="#">OpencycleMap Transport</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.OpenCycleMapLandscape", "title":"OpencycleMap Landscape"}'>
+                                                                            <a class="clearfix" href="#">OpencycleMap Landscape</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.MapQuest", "title":"Mapquest"}'>
+                                                                            <a class="clearfix" href="#">Mapquest</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.MapQuestAerial", "title":"Mapquest Aerial"}'>
+                                                                            <a class="clearfix" href="#">Mapquest Aerial</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.StamenToner", "title":"Stamen Toner"}'>
+                                                                            <a class="clearfix" href="#">Stamen Toner</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.StamenTerrain", "title":"Stamen Terrain"}'>
+                                                                            <a class="clearfix" href="#">Stamen Terrain</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.StamenWatercolor", "title":"Stamen Watercolor"}'>
+                                                                            <a class="clearfix" href="#">Stamen Watercolor</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.ESRIStreetMap", "title":"ESRI Street Map"}'>
+                                                                            <a class="clearfix" href="#">ESRI Street Map</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.ESRITopoMap", "title":"ESRI Topo Map"}'>
+                                                                            <a class="clearfix" href="#">ESRI Topo Map</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.ESRIImagery", "title":"ESRI Imagery"}'>
+                                                                            <a class="clearfix" href="#">ESRI Imagery</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.GoogleRoadmap", "title":"Google Roadmap"}'>
+                                                                            <a class="clearfix" href="#">Google Roadmap</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.GoogleSatellite", "title":"Google Satellite"}'>
+                                                                            <a class="clearfix" href="#">Google Satellite</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.GoogleHybrid", "title":"Google Hybrid"}'>
+                                                                            <a class="clearfix" href="#">Google Hybrid</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.GoogleTerrain", "title":"Google Terrain"}'>
+                                                                            <a class="clearfix" href="#">Google Terrain</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.BingRoad", "title":"Bing Road"}'>
+                                                                            <a class="clearfix" href="#">Bing Road</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.BingAerial", "title":"Bing Aerial"}'>
+                                                                            <a class="clearfix" href="#">Bing Aerial</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.BingAerialWithLabels", "title":"Bing Aerial with labels"}'>
+                                                                            <a class="clearfix" href="#">Bing Aerial with labels</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.YandexMap", "title":"Yandex Map"}'>
+                                                                            <a class="clearfix" href="#">Yandex Map</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.YandexSatellite", "title":"Yandex Satellite"}'>
+                                                                            <a class="clearfix" href="#">Yandex Satellite</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.YandexHybrid", "title":"Yandex Hybrid"}'>
+                                                                            <a class="clearfix" href="#">Yandex Hybrid</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.YandexPublicMap", "title":"Yandex PublicMap"}'>
+                                                                            <a class="clearfix" href="#">Yandex PublicMap</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.YandexPublicMapHybrid", "title":"Yandex PublicMap Hybrid"}'>
+                                                                            <a class="clearfix" href="#">Yandex PublicMap Hybrid</a>
+                                                                        </li>
+                                                                        <li data-geomanager-type="baselayers" data-geomanager-options='{"providername":"L.GeoManager.Wikimapia", "title":"Wikimapia"}'>
+                                                                            <a class="clearfix" href="#">Wikimapia</a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Layer Dialog end -->
+                                            <ul id="geoman0drag" class="nav nav-list bs-docs-sidenav"></ul>
+
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="input-prepend">
+
+                                <button id="geocodebutton" class="btn" type="button">
+                                    <i class="icon-search"></i>
+                                </button>
+
+                                <input id="geocodeinput" type="text" placeholder="Search...">
+
+                            </div>
+
+                            <div class="input-prepend">
+
+                                <button class="btn" type="button" data-select2-open="geocoder">
+                                    <i class="icon-globe"></i>
+                                </button>
+
+                                <select id="geocoder" class="select2" style="width:200px;">
+                                    <option value="L.GeoManager.OSMGeocode">OpenStreetMap</option>
+                                    <option value="L.GeoManager.GoogleGeocode">Google</option>
+                                    <option value="L.GeoManager.BingGeocode">Bing</option>
+                                    <option value="L.GeoManager.ESRIGeocode">ESRI</option>
+                                    <option value="L.GeoManager.GeonamesGeocode">Geonames</option>
+                                    <option value="L.GeoManager.MapQuestGeocode">MapQuest</option>
+                                    <option value="L.GeoManager.NokiaGeocode">Nokia</option>
+                                    <option value="L.GeoManager.YandexGeocode">Yandex</option>
+                                    <option value="L.GeoManager.RUCadastreGeocode">RUCadastre (parcel numbers)</option>
+                                    <option value="L.GeoManager.UACadastreGeocode">UACadastre (parcel numbers)</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="map" style="width:100%; height:600px; "></div>
+                </div>
+            </div>
+
+            
+
+
+            
+
+        </section>
+    </div>
+</div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Технології</h2>
+                <p>
+                    Тут буде наведена інформація про рекомендовані с/г культури, перехідний період тощо...  Тут буде наведена інформація про рекомендовані с/г культури, перехідний період тощо...
+                    
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Детальніше &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Сертифікація</h2>
+                <p>Законодавчо-нормативна база, органи сертифікації, вартість ітд... Законодавчо-нормативна база, органи сертифікації, вартість ітд...</p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Детальніше &raquo;</a></p>
+            </div>
+            <div class="col-md-4">
+                <h2>Переробка</h2>
+                <p>Технології заготівлі і переробки, збуту, товар під замовлення, дошка оголошень ітд. Технології заготівлі і переробки, збуту, товар під замовлення, дошка оголошень ітд</p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Детальніше &raquo;</a></p>
+            </div>
+        </div>
+
+
+
+
+        <!-- Modal
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Modal header</h3>
+            </div>
+            <div class="modal-body">
+                <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+             -->
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- GEO Ip Locator Script -->
+        <!--<script type="text/javascript" src="http://j.maxmind.com/app/geoip.js"></script> -->
+        <!-- Date.format -->
+        <!-- CDN
+
+        <script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+        -->
+        <!-- Local
+        -->
+        <script src="~/Scripts/components/date.format/date.format.js"></script>
+
+
+
+        <!-- jQuery -->
+        <!-- CDN
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        -->
+        <!-- Local-->
+
+        <script src="~/Scripts/components/jquery/jquery.min.js"></script>
+        <script src="~/Scripts/components/jquery.ui/jquery.ui.js"></script>
+
+
+        <script src="~/Scripts/components/jquery.select2/select2.js"></script>
+
+        <!-- Bootstrap -->
+        <!-- CDN
+
+        <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        -->
+        <!-- Local
+        -->
+        <script src="~/Scripts/components/bootstrap/js/bootstrap.min.js"></script>
+
+
+        <script src="~/Scripts/components/bootstrap.dropdownform/bootstrap.dropdownform.js"></script>
+
+
+        <!-- Leaflet -->
+        <!-- CDN
+
+        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+        -->
+        <!-- Local
+        -->
+        <script src="~/Scripts/components/leaflet/leaflet-src.js"></script>
+
+        <script src="~/Scripts/components/leaflet.proj4/proj4-compressed.js"></script>
+        <script src="~/Scripts/components/leaflet.proj4/proj4leaflet.js"></script>
+
+        <script src="~/Scripts/components/leaflet.label/leaflet.label-src.js"></script>
+
+        <script src="~/Scripts/components/leaflet.geomanager/layers/wikimapia.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/layers/yandex.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/layers/google.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/layers/bing.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/layers/arcgis.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/layers/rucadastre.js"></script>
+
+        <script src="~/Scripts/components/leaflet.geomanager/leaflet.geomanager.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/providers/common.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/providers/rucadastre.js"></script>
+        <script src="~/Scripts/components/leaflet.geomanager/providers/uacadastre.js"></script>
+
+
+        <!-- Google prettify -->
+        <!-- CDN
+
+        <script src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
+        -->
+        <!-- Local
+        -->
+        <script src="~/Scripts/components/prettify/prettify.js"></script>
+
+
+        <script>
+            $('.select2').select2();
+
+            $('button[data-select2-open]').click(function () {
+                alert('hello!');
+                $('#' + $(this).data('select2-open')).select2('open');
+            });
+
+            $('#geocodebutton').on('click', function (e) {
+                //click or search button
+                geoManager.geocode({ providername: $('#geocoder').val(), query: $('#geocodeinput').val() });
+            });
+
+            $('#geocodeinput').on('keydown', function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    geoManager.geocode({ providername: $('#geocoder').val(), query: $('#geocodeinput').val() });
+                }
+            });
+
+            var map = L.map('map').setView([50.2975907, 25.2033758], 13);
+            //var map = L.map('map').setView([geoip_latitude(),  geoip_longitude()], 13);
+
+            L.control.scale().addTo(map);
+
+            var customProvider = function (layer_options) {
+                var dfd = new jQuery.Deferred()
+                    , layer = new L.TileLayer.WMS("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+                        layers: 'nexrad-n0r-900913',
+                        format: 'image/png',
+                        transparent: true,
+                        attribution: "Weather data &copy; 2011 IEM Nexrad",
+                        opacity: 0.4
+                    });
+
+                layer.geomanager = {
+                    options: layer_options
+                    , renderOptionsForm: function () {
+                        var html = ''
+                            + '<span>Opacity: <input name="opacity" type="text" value="1.0"></span>';
+
+                        $node = $(html);
+
+                        $node.find('input[name="opacity"]').on('change', function (e) {
+
+                            layer.setOpacity($(e.target).val());
+
+                        });
+
+                        return $node;
+                    }
+                };
+
+                dfd.resolve(layer);
+
+                return dfd.promise();
+            }
+
+
+
+            L.GeoManager.prototype.registerAPIKeys([
+              { name: 'bing', value: 'Anqm0F_JjIZvT0P3abS6KONpaBaKuTnITRrnYuiJCE0WOhH6ZbE4DzeT6brvKVR5' }
+              , { name: 'mapquest', value: 'Kmjtd%7Cluua2qu7n9%2C7a%3Do5-lzbgq' }
+              , { name: 'wikimapia', value: '60175C48-4B0C86C-A2D4D106-A5F37CAF-5A760C96-45526DF2-6D90C63B-511E68EE' }
+              , { name: 'nokia', value: 'HGHGJHgdbndbmbsdf7675wefdvvdsnb' }
+              , { name: 'cloudmade', value: 'cludmadeapikey' }
+            ]);
+
+
+            var geoOptions = {
+                tag: 'geoman0'
+            }
+
+            var geoManager = new L.GeoManager(geoOptions);
+
+            geoManager.addTo(map);
+
+            // setActiveTab call from dynamic bootstrap tabs in identifier window
+            function setActiveTab(e) {
+                e.preventDefault();
+                $(e.target).tab('show');
+            }
+
+            // make code pretty
+            window.prettyPrint && prettyPrint()
+
+            function toggleCadastre(element) {
+                //alert('hello!');
+                //geoManager.setOptions({ "providername": "L.GeoManager.UACadastre", "title": "UACadastre Overlay" });
+                //geoManager.geocode({ "providername": "L.GeoManager.UACadastre", "title": "UACadastre Overlay" });
+                //geoManager.geocode({ providername: $('#geocoder').val(), query: "Kiev" });
+                //geoManager.geocode({ providername: L.GeoManager.OSMGeocode, query: '#geocodeinput' });
+                geoManager.setOptions({ baselayer: 'google' });
+                geoManager.setOptions({ overlay: 'wikimapia-hybrid' });
+                geoManager.geocode({ providername: $('#geocoder').val(), query: $('#geocodeinput').val() });
+                geoManager.setOptions({ "providername": "L.GeoManager.UACadastre", "title": "UACadastre Overlay" });
+                geoManager.setOptions({ "providername": "L.GeoManager.UACadastre", title: "UACadastre Overlay" });
+                geoManager.setOptions({ providername: "L.GeoManager.UACadastre" });
+                geoManager.setOptions({ overlay: 'uacadastre' });
+                geoManager.setOptions({ overlay: 'L.GeoManager.UACadastre' });
+                //geoManager.geocode({ baselayer: 'google' });
+                //element.checked = !element.checked;
+                var elem = document.getElementById('overlay1');
+                elem.parentNode.removeChild(elem);
+            }
+
+        </script>

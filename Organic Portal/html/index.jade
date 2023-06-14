@@ -1,0 +1,1092 @@
+doctype
+html
+  head
+    title Index
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width")
+    link(rel="stylesheet", type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css")
+    link(rel="stylesheet", type="text/css" href="../node_modules/font-awesome/css/font-awesome.min.css")
+    link(rel="stylesheet", type="text/css", href="../css/libs/jquery.mCustomScrollbar.min.css")
+    script(src="../node_modules/jquery/dist/jquery.js")
+    script(src="../js/jquery.mCustomScrollbar.concat.min.js")
+    script(src="../js/index.js")
+    link(rel="stylesheet", href="../css/site/site.css")
+    link(rel="stylesheet", href="../css/pages/index.css")
+  body
+    div.container-fluid
+      div.row
+        div.header-wrapper
+          a Вхід
+      div.row
+        .site-header
+          img(src="../img/organic_logo_png.png")
+          nav
+            ul
+              li 
+                a Головна
+              li 
+                a Технологія
+              li 
+                a Сертифікація
+              li 
+                a Переробка
+          div#trapezoid
+      div.row
+        section.work-place
+          aside.search-container
+            div.search-category
+              ul
+                li
+                  a(class="active suitability")
+                    div
+                      i(class="fa fa-line-chart fa-2x")
+                      span Аналітика
+                li
+                  a(class="technology")
+                    div
+                      i(class="fa fa-server fa-2x")
+                      span Технологія
+                li
+                  a(class="certification")
+                    div
+                      i(class="fa fa-certificate fa-2x")
+                      span Сертифікація
+                li
+                  a(class="processing")
+                    div
+                      i(class="fa fa-recycle fa-2x")
+                      span Переробка
+            div.input-place
+              .form-group
+                input(type="search", class="form-control", id="usr")
+                input(type="button")
+            div.indicators-list
+              ul
+                div(class="modal-body", id="suitability")
+                  li
+                    i(class="fa fa-angle-right", aria-hidden="true") 
+                    span Аналіз показників
+                    div.content#analyse
+                      - var chemValues = [{nameElem: "pH грунту", value: 6}, {nameElem: "Органічна речовина", value: 0}, {nameElem: "Азот (N)", value: 150}, {nameElem: "Фосфор (P)", value: 120},  {nameElem: "Калій (К)", value: 300}, {nameElem: "Марганець (Mn)", value: 10}, {nameElem: "Сірка (S)", value: 4}, {nameElem: "Цинк (Zn)", value: 5}, {nameElem: "Мідь (Cu)", value: 1}, {nameElem: "Бор (B)", value: 0.4}, {nameElem: "Кобальт (Co)", value: 1}, {nameElem: "Кадмій (Cd)", value: 0.1}, {nameElem: "Свинець (Pb)", value: 1}, {nameElem: "Ртуть (Hg)", value: 0.01}, {nameElem: "Цезій (Cs)", value: 1}, {nameElem: "Стронцій (Sr)", value: 0.01}, {nameElem: "Агрохімічна оцінка", value: 50}]
+                      table(class="table analyse")
+                        thead
+                          tr
+                            td Показник
+                            td Значення
+                            td Од. виміру
+                            td
+                          - for(var i=0; i < chemValues.length; i++)
+                              tr
+                                td #{chemValues[i].nameElem}
+                                td 74
+                                td Од. pH
+                                td 
+                                  div(class="progress")
+                                    div(class="progress-bar", role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 80%;")
+                                      span(class="sr-only") 60% Complete
+                          
+                          
+                      div.conclusion
+                        div.title Придатність до органічного виробництва - 
+                          span 78%
+                        div.progress
+                          div(class="progress-bar", role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 60%;")
+                            span(class="sr-only") 60% Complete
+                        div.detail-description-btns
+                          button#detail-description-btn
+                            i(class="fa fa-clipboard", aria-hidden="true") Детальний звіт
+                          button#recomendation-btn
+                            i(class="fa fa-clipboard", aria-hidden="true") Рекомендації
+                          button#description-btn
+                            i(class="fa fa-clipboard", aria-hidden="true") Детальніший опис
+                  li
+                    i(class="fa fa-angle-right", aria-hidden="true") 
+                    span Фільтр по показниках
+                    div.content#filter
+                      ul
+                        
+                        li Основні агрохімічні показники
+                          ul
+                            li 
+                              input(type="checkbox") 
+                              | Адміністративна карта
+                            li 
+                              input(type="checkbox") 
+                              | Адміністративна карта
+                            li 
+                              input(type="checkbox") 
+                              | Адміністративна карта
+                            li 
+                              input(type="checkbox") 
+                              | Адміністративна карта
+                        li.main-agro-indicators Основні агрохімічні показники
+                          ul
+                            li 
+                              input(type="radio", value="a") 
+                              | Адміністративна карта
+                            li 
+                              input.p-filter(type="radio", value="Фосфор (P)") 
+                              | Фосфор (P)
+                            li 
+                              input.kk-filter(type="radio", value="c") 
+                              | Адміністративна карта
+                            li 
+                              input(type="radio", value="d") 
+                              | Адміністративна карта
+                  li
+                    i(class="fa fa-angle-right", aria-hidden="true") 
+                    span Введення показників
+                    div.content#input
+                      table(class="table analyse")
+                        thead
+                          tr
+                            td Показник
+                            td Значення
+                            td Од. виміру
+                            td
+                        tbody
+                          tr
+                            td pH грунту
+                            td 
+                              input(type="number")
+                            td Од. pH
+                            td 
+                              div(class="progress")
+                                div(class="progress-bar", role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 80%;")
+                                  span(class="sr-only") 60% Complete
+                          
+                          tr
+                            td pH грунту
+                            td 5.1
+                            td Од. pH
+                            td 
+                              div(class="progress")
+                                div(class="progress-bar", role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 80%;")
+                                  span(class="sr-only") 60% Complete
+                  li
+                    i.fa.fa-angle-right(aria-hidden='true')
+                    span Легенда
+                    #legend.content
+                      ul
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Реакція грунтового розчину
+                          .content
+                            table
+                              tr
+                                td
+                                  .indicator(style='background-color: #C8FEC5')
+                                td
+                                  i близькі до нейтральних
+                                td
+                                  strong 5,6 - 6,0 (pHсол.)
+                              tr
+                                td
+                                  .indicator(style='background-color: #80CD7F')
+                                td
+                                  i нейтральні
+                                td
+                                  strong 6,1 - 7,0 (pHсол.)
+                              tr
+                                td
+                                  .indicator(style='background-color: #89FBFB')
+                                td
+                                  i слаболужні
+                                td
+                                  strong 7,1 - 7,5 (pHсол.)
+                              tr
+                                td
+                                  .indicator(style='background-color: #807DFD')
+                                td
+                                  i середньолужні
+                                td
+                                  strong 7,6 - 8,0 (pHсол.)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих сполук фосфору (P)
+                          .content
+                            table.p-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 26 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 26-50 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 51-100 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 101-150 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 151-250 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 250 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст гумусу
+                          .content
+                            table
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 1,1 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 1,1-2,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 2,1-3,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 3,1-4,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 4,1-5,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 5,0 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих сполук калію (K)
+                          .content
+                            table.k-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 41 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 41-80 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 81-120 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 121-170 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 171-250 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 250 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм сірки (S)
+                          .content
+                            table.s-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 3,1 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 3,1-6,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 6,1-9,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 9,1-12,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 12,1-15,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 15,0 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм марганцю (Mn)
+                          .content
+                            table.mn-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 5,1 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 5,1-7,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 7,1-10,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 10,1-15,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 15,1-20,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 20,0 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм цинку (Zn)
+                          .content
+                            table.zn-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 1,1 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 1,1-1,5 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 1,6-2,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 2,1-3,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 3,1-5,0 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 5,0 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм міді (Cu)
+                          .content
+                            table.cu-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 0,11 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 0,11-0,15 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 0,16-0,20 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 0,21-0,30 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 0,31-0,50 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 0,50 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм кобальту (Co)
+                          .content
+                            table.co-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 0,071 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 0,071-0,10 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 0,11-0,15 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 0,16-0,20 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 0,21-0,30 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 0,30 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм молібдену (Mo)
+                          .content
+                            table
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 0,05 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 0,05-0,07 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 0,08-0,10 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 0,11-0,15 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 0,16-0,22 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 0,22 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст рухомих форм бору (B)
+                          .content
+                            table.b-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 0,15 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 0,15-0,22 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i середній
+                                td
+                                  strong 0,23-0,33 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #73FC70')
+                                td
+                                  i підвищений
+                                td
+                                  strong 0,34-0,50 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8EFCFD')
+                                td
+                                  i високий
+                                td
+                                  strong 0,51-0,70 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #0000FF')
+                                td
+                                  i дуже високий
+                                td
+                                  strong > 0,70 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Групування за кислотністю
+                          .content
+                            table
+                              tr
+                                td
+                                  .indicator(style='background-color: #CF2824')
+                                td
+                                  i дуже сильнокислі
+                                td
+                                  strong < 4,1 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #E0AACA')
+                                td
+                                  i сильнокислі
+                                td
+                                  strong 4,1-4,5 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #EAD092')
+                                td
+                                  i середньокислі
+                                td
+                                  strong 4,6-5,0 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #F5F67C')
+                                td
+                                  i слабокислі
+                                td
+                                  strong 5,1-5,5 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #B2F1B0')
+                                td
+                                  i близькі до нейтральних
+                                td
+                                  strong 5,6-6,0 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #79B877')
+                                td
+                                  i нейтральні
+                                td
+                                  strong 6,1-7,0 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #7DE8E8')
+                                td
+                                  i слаболужні
+                                td
+                                  strong 7,1-7,5 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #8B8ACC')
+                                td
+                                  i середньолужні
+                                td
+                                  strong 7,6-8,0 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #D8B7D9')
+                                td
+                                  i сильнолужні
+                                td
+                                  strong 8,1-8,5 (pHксI)
+                              tr
+                                td
+                                  .indicator(style='background-color: #CDB789')
+                                td
+                                  i дуже сильнолужні
+                                td
+                                  strong > 8,5 (pHксI)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст лужногідролізованого азоту(N)
+                          .content
+                            table.n-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #D43733')
+                                td
+                                  i дуже низький
+                                td
+                                  strong < 101 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FF8C00')
+                                td
+                                  i низький
+                                td
+                                  strong 101-150 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #F6F67C')
+                                td
+                                  i середній
+                                td
+                                  strong 151 - 200 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #53A551')
+                                td
+                                  i підвищений
+                                td
+                                  strong > 200 (мг/кг)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Щільність забруднення цезієм-137
+                          .content
+                            table.cs-legend
+                              tr
+                                td
+                                  .indicator(style='background-color:#73FC70')
+                                td
+                                  i зона умовно чиста
+                                td
+                                  strong < 1,0 (Кі/км.кв)
+                              tr
+                                td
+                                  .indicator(style='background-color:#8EFCFD')
+                                td
+                                  i зона посиленого контролю
+                                td
+                                  strong 1,0-5,0 (Кі/км.кв)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i зона добровільного гарантованого відселення
+                                td
+                                  strong 5,1-15,0 (Кі/км.кв)
+                              tr
+                                td
+                                  .indicator(style='background-color:#D43733')
+                                td
+                                  i зона обов'язкового відселення
+                                td
+                                  strong > 15,0 (Кі/км.кв)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Щільність забруднення стронцій-90
+                          .content
+                            table.sr-legend
+                              tr
+                                td
+                                  .indicator(style='background-color:#73FC70')
+                                td
+                                  i зона умовно чиста
+                                td
+                                  strong < 0,02 (Кі/км.кв)
+                              tr
+                                td
+                                  .indicator(style='background-color:#8EFCFD')
+                                td
+                                  i зона посиленого контролю
+                                td
+                                  strong 0,02-0,15 (Кі/км.кв)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FDFD7A')
+                                td
+                                  i зона добровільного гарантованого відселення
+                                td
+                                  strong 0,16-3,0 (Кі/км.кв)
+                              tr
+                                td
+                                  .indicator(style='background-color:#D43733')
+                                td
+                                  i зона обов'язкового відселення
+                                td
+                                  strong > 3,0 (Кі/км.кв)
+                        li
+                          i.fa.fa-angle-right(aria-hidden='true')
+                          i Вміст обмінного калію(K)
+                          .content
+                            table.k-legend
+                              tr
+                                td
+                                  .indicator(style='background-color: #FECD98')
+                                td
+                                  i низький
+                                td
+                                  strong 41-80 (мг/кг)
+                              tr
+                                td
+                                  .indicator(style='background-color: #FEFE6D')
+                                td
+                                  i середній
+                                td
+                                  strong 81-120 (мг/кг)
+                  li 
+                    i(class="fa fa-angle-right", aria-hidden="true") 
+                    span Ділянки
+                    div.content#fields.areas-list-block
+                      div.places-list
+                          a.add-btn
+                            span +
+                            | Додати
+                          ul.list-group
+                            li.list-group-item
+                              a.remove
+                                i.fa.fa-times
+                              a.edit
+                                i.fa.fa-pencil
+                              div.area-info
+                                i.fa.fa-map-marker.fa-2x
+                                ul
+                                  li Zone 1
+                                  li
+                                    i.fa.fa-user 
+                                    strong admin@gmail.com
+                                    i.fa.fa-calendar 
+                                    strong 22/11/2016
+                            li.list-group-item
+                              a.remove
+                                i.fa.fa-times
+                              a.edit
+                                i.fa.fa-pencil
+                              div.area-info
+                                i.fa.fa-map-marker.fa-2x
+                                ul
+                                  li Zone 1
+                                  li
+                                    i.fa.fa-user 
+                                    strong admin@gmail.com
+                                    i.fa.fa-calendar 
+                                    strong 22/11/2016     
+                            li.list-group-item
+                              a.remove
+                                i.fa.fa-times
+                              a.edit
+                                i.fa.fa-pencil
+                              div.area-info
+                                i.fa.fa-map-marker.fa-2x
+                                ul
+                                  li Zone 1
+                                  li
+                                    i.fa.fa-user 
+                                    strong admin@gmail.com
+                                    i.fa.fa-calendar 
+                                    strong 22/11/2016
+                            li.list-group-item
+                              a.remove
+                                i.fa.fa-times
+                              a.edit
+                                i.fa.fa-pencil
+                              div.area-info
+                                i.fa.fa-map-marker.fa-2x
+                                ul
+                                  li Zone 1
+                                  li
+                                    i.fa.fa-user 
+                                    strong admin@gmail.com
+                                    i.fa.fa-calendar 
+                                    strong 22/11/2016     
+                div(class="modal-body", id="technology")
+                  div.content
+                div(class="modal-body", id="certification")
+                  div.content
+                div(class="modal-body", id="processing")
+                  div.content
+            footer.site-footer
+                footer
+                  div
+                    strong
+                      img(src="../img/egap-logo.png", style="height:15px;width:15px;margin-right: 2px;")
+                      | Початкова підтримка надана в рамках конкурсу "Egap Challenge"
+                  i(class="fa fa-copyright", aria-hidden="true") 2016 OrganicPortal - геоінформаційний портал органічного землеробства
+          section.map-container
+            .legend-tooltip
+              button#close-tooltip-btn
+                i(class="fa fa-close")
+              .modal-body
+                table.table
+        section.about-site
+          .col-md-3
+            .site-info
+              header Мапа сайту
+              ul(type="circle")
+                li
+                  a Головна
+                li
+                  a Технологія
+                li
+                  a Сертифікація
+                li
+                  a Переробка                
+          .col-md-3
+            .site-info
+              header Допомога
+              ul(type="circle")
+                li
+                  a Про нас
+                li
+                  a Як це працює?
+                li
+                  a Умови користування
+                li
+                  a Конфіденційність
+                li
+                  a Запропонувати ідею
+                li
+                  a Служба підтримки
+          .col-md-3
+            .site-info
+              header Ми в соціальних мережах
+              ul(type="circle")
+                li
+                  a VK
+                li
+                  a Facebook
+                li
+                  a Twitter
+                li
+                  a RivneStudents
+          .col-md-3
+            .site-info
+              header Контакти
+              ul(type="circle")
+                li
+                  a НУВГП
+                li
+                  a organicportal@gmail.com
+      div.row.loader
+        img(src="../img/loading.gif")
+      div.row
+        .description
+          .modal-body
+            .col-md-7            
+              .feature-title
+                .feature-title-block
+                  img(src="../img/logo.png")
+                .recomendation-info-block
+                  .recomendation-info-date.text-center
+                    | Рекомендації на: 04/05/2017
+                  .recomendation-info-rate.text-center
+                    | Оцінка ділянки:
+                    span 80%
+              .field-passport
+                .row
+                  .col-md-3
+                    span.passport-label Фермер
+                  .col-md-9
+                    span.passport-info Онищенко Артем
+                .row
+                  .col-md-3
+                    span.passport-label Площа ділянки
+                  .col-md-9
+                    span.passport-info 300 кв. м
+              .grow
+                .grow-title
+                  span.should-grow-title Рекомендовано вирощувати
+                .panel.panel-warning
+                  .panel-body Рекомендацій посилаються лише на оптимальність вмісту хімічних елементів в грунті. При наявності небезпечної або несприятливої кількості інших елементів, дані культури не є рекомендованими до посадки, а сама ділянка є непридатною до органічного виробництва 
+                .grow-cultures-list.should
+                  
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/картопля.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+              //.grow
+                .grow-title
+                  span.not-should-grow-title Некомендовано вирощувати
+                .grow-cultures-list.not-should
+                  .modal-body
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/картопля.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/пшениця.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/яблуко.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/пізня морква.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/капуста.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+                    .grow-cultures-list-item
+                      .list-item-img
+                        img(src="../img/картопля.jpg")
+                      .list-item-title.text-center
+                        | Картопля
+            .col-md-5
+                .field-photo
+                  img(src="../img/u1.jpeg")
+                .chem-elem-desc
+                  //.panel.panel-danger
+                    .panel-heading Азот (N). Вміст -  Оптимальний показники [200-400]
+                    .panel-body Послаблюється ріст бічних пагонів. Листки, стебла і плоди зменшуються в розмірі, листки стають блідо-зеленими або жовтуватими. При тривалому недоліку блідо-зелений колір листя стає помаранчевим і червоним, листя висихають і передчасно обпадають, що обмежує утворення плодів, знижує урожай і погіршує його якість
+                
+              
+            
+                      
+
+    
+
+                            
+ 
+
+
+
+

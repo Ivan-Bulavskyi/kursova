@@ -1,0 +1,156 @@
+﻿@section styles {
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/index.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/site.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/advices.css")'>
+    <link href="~/Content/Pages/welcome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/Libs/animate.css">
+    <link href="~/Content/Libs/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="~/Content/Libs/owl.carousel.css">
+
+    <!--?-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+
+@Html.Partial("_Navbar")
+
+<section id="team" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="heading">
+                <h2>Команда проекту</h2>
+            </div>
+            <div>
+                <div class="service person row">
+                    <div class="col-md-3 col-sm-12">
+                        <p>
+                            <img src="~/Images/Intersection 9.png">
+                        </p>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <h3>Скрипчук Петро</h3>
+                        <p>Співзасновник проекту, експерт у галузі органічного виробництва, досвід 15 років, д.е.н, професор, член Технічного комітету із розробки стандартів (ТК 93 УкрНДНЦ), голова громадської організації “ЗІР”, доктор економічних наук з економіки природокористування, автор 220 наукових праць у галузі сертифікації, стандартизації, органічного виробництва, екологічного та водогосподарського менеджменту</p>
+                        <div class="personal-contacts">
+                            <div class="personal-contact col-md-4 col-sm-12">
+                                <div class="dot"></div>
+                                <a href="https://www.facebook.com/profile.php?id=100011576620821"> Facebook </a>
+                            </div>
+                            <div class="personal-contact col-md-4 col-sm-12">
+                                <div class="dot"></div>
+                                <a href="https://scholar.google.com.ua/citations?user=ojj6xy4AAAAJ&hl=uk&oi=ao"> Science ID </a>
+                            </div>
+                            <div class="personal-contact col-md-4 col-sm-12">
+                                <div class="dot"></div>
+                                <a href="mailto:petroskrypchuk@gmail.com"> E-Mail </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="service person row">
+                    <div class="col-md-3 col-sm-12">
+                        <p>
+                            <img src="~/Images/Intersection 8.png">
+                        </p>
+                    </div>
+                    <div class="col-md-9 col-sm-12">
+                        <br><h3>Жуковський Віктор</h3>
+                        <p>Співзасновник проекту, ІТ спеціаліст (ASP.NET MVC, MS SQL/MySQL, MS Azure та ін.), старший викладач кафедри прикладної математики Національного університету водного господарства та природокористування</p>
+                        <div class="personal-contacts">
+                            <div class="personal-contact col-md-4 col-sm-12">
+                                <div class="dot"></div>
+                                <a href="https://www.facebook.com/viktor.zhukovskyy"> Facebook </a>
+                            </div>
+                            <div class="personal-contact col-md-4 col-sm-12">
+                                <div class="dot"></div>
+                                <a href="https://www.scopus.com/authid/detail.uri?authorId=57197722354"> Scopus </a>
+                            </div>
+                            <div class="personal-contact col-md-4 col-sm-12">
+                                <div class="dot"></div>
+                                <a href="mailto:zeonet@gmail.com"> E-Mail </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div class="row developers">
+                <h3>Програмісти:</h3>
+                <div class="col-md-3 col-sm-12">
+                    <h4 class="text-center">БЕСАРАБ ВІТАЛІЙ</h4>
+                    <p class="col-md-6 text-center"><a href="https://github.com/xardasVB">Github</a></p>
+                    <p class="col-md-6 text-center"><a href="mailto:petroskrypchuk@gmail.com">E-Mail</a></p>
+                    @*<p>ASP.NET developer</p>*@
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <h4 class="text-center">КУЧЕНЕЦЬ ОЛЕКСАНДР</h4>
+                    <p class="col-md-6 text-center"><a href="">Github</a></p>
+                    <p class="col-md-6 text-center"><a href="">E-Mail</a></p>
+                    @*<p>ASP.NET developer</p>*@
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <h4 class="text-center">ПЕТРУК СТАНІСЛАВ</h4>
+                    <p class="col-md-6 text-center"><a href="">Github</a></p>
+                    <p class="col-md-6 text-center"><a href="">E-Mail</a></p>
+                    @*<p>ASP.NET developer</p>*@
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <h4 class="text-center">ОНИЩЕНКО АРТЕМ</h4>
+                    <p class="col-md-6 text-center"><a href="">Github</a></p>
+                    <p class="col-md-6 text-center"><a href="">E-Mail</a></p>
+                    @*<p>ASP.NET developer</p>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@Html.Partial("_AboutSite")
+
+<script src="~/Scripts/Pages/services/UserService.js"></script>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>
+<script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>
+<script src="~/Scripts/Pages/controllers/CertificationController.js"></script>
+<script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+<script src="~/Scripts/Pages/controllers/FooterController.js"></script>
+<script src="~/Scripts/Pages/controllers/AdvicesController.js"></script>
+
+@if (User.IsInRole("admin"))
+{
+    <script type="text/javascript">
+        function LoadFilemanager() {
+            var mngrWnd = window.open("/scripts/libs/filemanager/index.html",
+                "",
+                'location=no,toolbar=no,menubar=no,directories=no,status=no,resizable=yes,scrollbars=yes,height=600,width=750, ' +
+                'false');
+        };
+    </script>
+}
+
+
+@section scripts {
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/Pages/index.js" charset="windows-1251"></script>
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?components=country:Ukraine&key=AIzaSyAgb4Z68gbhiTBDVd0-reiSl-h5DBFknDU&libraries=places&language=uk"></script>
+    <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js" charset="utf-8"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+
+    <script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+    <script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.form.js"></script>
+    <script src="~/Scripts/Libs/jquery.nav.js"></script>
+    <script src="~/Scripts/Libs/jquery.sticky.js"></script>
+    <script src="~/Scripts/Libs/plugins.js"></script>
+    <script src="~/Scripts/Libs/wow.min.js"></script>
+    <script src="~/Scripts/Pages/welcome.js"></script>
+}

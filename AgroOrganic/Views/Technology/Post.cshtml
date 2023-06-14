@@ -1,0 +1,17 @@
+﻿@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+
+    <div ng-controller="TechnologyController" data-ng-init="getPost(@ViewBag.id)">
+        <div ng-repeat="p in post">
+            <h1>
+                <a ng-href="/Technology/post/{{p.Id}}">{{p.Title}}</a>
+            </h1>
+            <br />
+            <div ng-bind-html="renderHtml(p.Text)"></div>
+        </div>
+        <hr/>
+    </div>
+</div>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>

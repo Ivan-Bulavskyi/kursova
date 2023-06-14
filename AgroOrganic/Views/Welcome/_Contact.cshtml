@@ -1,0 +1,67 @@
+﻿@model AgroOrganic.Models.Feedback
+
+<section id="contact" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="block">
+                    <div class="heading wow fadeInUp">
+                        <h2>Напишіть нам!</h2>
+                        <p>Ми відкриті до співраці, отримання побажань, зауважень, критики, тощо. Будемо раді новим знайомствам та цікавим ідеям! Ми чекаємо на ваш лист!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-5 wow fadeInUp">
+                <div class="block text-left">
+                    <div class="sub-heading">
+                        <h4>Адреса для листування</h4>
+                        <p>  </p>
+                    </div>
+                    <address class="address">
+                        <hr>
+                        <p>
+                            <br>Національний університет водного господарства та природокористування<br>
+                            вул. Соборна 11,<br> м. Рівне,<br> Україна
+                        </p>
+                        <hr>
+                        <p>
+                            <strong>Facebook:</strong>&nbsp;<a href="https://www.facebook.com/OrganicPortal/">Organic Portal</a><br>
+                            <strong>E:</strong>&nbsp;portalorganic@gmail.com<br>
+                            <strong>P:</strong>&nbsp;+380962250350<br>
+                            <strong>P:</strong>&nbsp;+380979372093<br>
+                        </p>
+
+
+                    </address>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1 wow fadeInUp" data-wow-delay="0.3s">
+                <div class="form-group">
+                    @using (Html.BeginForm("Contact", "Welcome", FormMethod.Post, new { id="contact-form" }))
+                    {
+
+                        @Html.AntiForgeryToken()
+                        <div class="input-field">
+                            @Html.TextBoxFor(m => m.Name, new { type = "text", @class = "form-control", name="name", placeholder= "Ваше ім'я" })
+                        </div>
+                        <div class="input-field">
+                            @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-control", name = "email", placeholder = "Електронна адреса" })
+                        </div>
+                        <div class="input-field">
+                            @Html.TextAreaFor(m => m.Text, new { @class = "form-control", name = "message", placeholder = "Текст повідомлення", rows="3" })
+                        </div>
+                        <button class="btn-send" type="submit">Надіслати</button>
+
+                    <div id="success">
+                        <p>Ваше повідмлення було успішно надіслано!</p>
+                    </div>
+                    <div id="error">
+                        <p>Ваше повідомлення не було надіслано :(</p>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,35 @@
+﻿
+@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+    <h1>Створити пост</h1>
+    <div ng-controller="PostsController">
+
+        <form name="MyPost">
+            Категорія: 
+            <select required class="form-control" ng-model="post.CategoryId">
+                <option value="" hidden />
+                <option ng-repeat="cat in categories" value="{{cat.id}}">{{cat.name}}</option>
+            </select>
+            <br />
+            <br />
+            Назва: <input class="form-control" type="text" name="title" ng-model="post.Title" required />
+            <span style="color:red;" ng-show="MyPost.title.$error.required && MyPost.title.$touched">
+                Введіть, будь ласка, назву посту
+            </span>
+            <br />
+            <br />
+            Текст: <textarea ui-tinymce="tinymceOptions" name="text" ng-model="post.Text" required></textarea>
+            <span style="color:red;" ng-show="MyPost.text.$error.required  && MyPost.text.$touched">
+                Введіть, будь ласка, текст
+            </span>
+            <br />
+            <br />
+
+            <input class="btn btn-default" type="submit" ng-click="CreatePost(MyPost, post)" 
+                   ng-disable="MyPost.title.$error.required"/>
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>

@@ -1,0 +1,18 @@
+﻿@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+    <div ng-controller="ProductController" data-ng-init="getPosts()">
+        <div ng-repeat="post in posts">
+            <h1>
+                <a ng-href="/Product/post/{{post.Id}}">{{post.Title}}</a>
+            </h1><br />
+            <div ng-bind-html="renderHtml(post.Text)"></div>
+            <hr />
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+

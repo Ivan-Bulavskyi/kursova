@@ -1,0 +1,112 @@
+﻿<md-tab label="Потреба в добривах (біогумус)">
+    <md-content class="md-padding">
+        <div class="row">
+            <div class="col-md-8">
+                <md-button class="md-accent md-raised md-hue-1 pull-left"
+                           ng-click="addYearFert()">
+                    Додати культуру
+                </md-button>
+            </div>
+            <!--<div class="col-md-2">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                Площа ділянки - <input ng-model="params.area" class="form-inline" style="width:70px" type="number" value="{{params.area}}">Га-->
+                @*<i class="fa fa-map-marker" aria-hidden="true"></i>  Площа ділянки - {{params.area}} Га*@
+            <!--</div>-->
+            <div class="col-md-2">
+                Щільність грунту - {{params.mechanical.Value}}
+            </div>
+            <div class="col-md-2">
+                Вміст NPK, мг/кг ({{params.npk.Value}})
+            </div>
+            @*<div class="col-md-2">
+                Вміст гумусу - {{params.humusMapLayer.Value}} %
+            </div>*@
+        </div>
+        <div id="plan-dropdowns-fert" class="row plan-dropdowns">
+            <div product-id="{{$index}}"
+                 ng-repeat="selectedProduct in selectedProductsFert track by $index"
+                 class="col-xs-12 col-sm-6 col-md-4 col-lg-2"
+                 style="min-width:320px;">
+                <md-input-container>
+                    <label>Культура</label>
+                    <md-select product-selector ng-model="selectedProduct.product">
+                        <md-option ng-repeat="product in products"
+                                   ng-value="{{product}}"
+                                   ng-selected="selectedProduct.product.name == product.name">
+                            {{product.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-card>
+                    <img ng-src="{{selectedProduct.product.imgSrc}}" class="md-card-image" alt="Washed Out">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{selectedProduct.product.name}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+
+                    <md-slider-container class="p-5">
+                        <span>Плановий урожай (т/га)</span>
+                        <md-slider class="col-md-9 m-0 h-30" min="0" max="{{selectedProduct.product.maxHarvest}}" step="0.1" aria-label="blue" id="price-slider"
+                                   ng-model="selectedProduct.product.harvest">
+                        </md-slider>
+                        <div class="col-md-3 p-0" style="margin-top: 10px;">
+                            {{selectedProduct.product.harvest}} (т/га)
+                        </div>
+                    </md-slider-container>
+
+                    @*<md-slider-container class="p-5">
+                        <span>Внесено біогумусу (т/га)</span>
+                        <md-slider class="col-md-9 m-0 h-30" min="0" max="4" step="0.1" aria-label="blue" id="price-slider"
+                                   ng-model="selectedProduct.product.fertilizer"
+                                   ng-change="getNPKBalance(selectedProduct)">
+                        </md-slider>
+                        <div class="col-md-3 p-0" style="margin-top: 10px;">
+                            {{selectedProduct.product.fertilizer}} (т/га)
+                        </div>
+                    </md-slider-container>*@
+
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="pull-right" ng-click="deleteYearFert($index)">Видалити</md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <md-button md-no-ink class="pull-right md-accent md-raised md-hue-1"
+                           ng-click="showRecommendationFert()">
+                    Отримати рекомендації
+                </md-button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <md-list id="recomendation-list-fert" flex ng-show="LoadSuccessFert" class="recomendation-list">
+                    <md-subheader class="md-no-sticky">
+                        <h3>Наші рекомендації</h3>
+                    </md-subheader>
+                    <div class="alert alert-info">
+                        <strong>Увага!</strong> Надані рекомендації надаються на основі рівнянь регресії для кожної обраної культури та з врахуванням середньої ціни (за центнер) продукції та вартості сертифікації (на Га).
+                        Результат обробки являє собою лише теоретичний прогноз і не є інструкцією до виконання
+                    </div>
+
+
+                    <md-list-item class="md-3-line"
+                                  ng-repeat="recommendation in recommendationsFert track by $index"
+                                  ng-click="null">
+                        <img ng-src="{{recommendation.imgSrc}}" class="md-avatar" alt="{{item.name}}" />
+                        <div class="md-list-item-text" layout="column">
+                            <p>
+                                {{recommendation.Culture}}. Потрібно додати {{recommendation.AddedFertilizer}} т/га біогумусу. Баланс {{recommendation.NPKBalance}}. 
+                                Витарти на добриво {{recommendation.ExepencesOnFertilizer}} грн/га. Прибуток з урожаю {{recommendation.Income}} грн/га. Чистий прибуток {{recommendation.Payback}} грн/га.
+                            </p>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </div>
+
+    </md-content>
+</md-tab>

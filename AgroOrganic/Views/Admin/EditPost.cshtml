@@ -1,0 +1,26 @@
+﻿
+@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+    <h1>Редагувати пост</h1>
+    <div ng-controller="PostsController" data-ng-init="LoadPost(@ViewBag.postId)">
+        <form name="MyPost" ng-repeat="p in post">
+            Категорія: 
+            <select required class="form-control" ng-options="c.id as c.name for c in categories" ng-model="p.CategoryId">
+                @*<option ng-repeat="cat in categories" value="{{cat.id}}">{{cat.name}}</option>*@
+            </select>
+            <br />
+            <br />
+            Назва: 
+            <input class="form-control" type="text" ng-model="p.Title" required />
+            <br />
+            <br />
+            Текст: <textarea ui-tinymce="tinymceOptions" ng-model="p.Text" required></textarea>
+            <br />
+            <br />
+            <input class="btn btn-default" type="submit" ng-click="EditPost(MyPost, p)" />
+        </form>
+    </div>
+</div>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>

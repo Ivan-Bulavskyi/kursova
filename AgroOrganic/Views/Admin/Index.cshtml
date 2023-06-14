@@ -1,0 +1,9 @@
+﻿@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+
+    @Html.ActionLink("Менеджер постів", "Posts", "Admin", new {} ,new { @class="btn btn-default btn-lg" })
+    
+    @Html.ActionLink("MapLayers", "Index", "MapLayers", new {}, new {@class="btn btn-default btn-lg"})
+
+</div>

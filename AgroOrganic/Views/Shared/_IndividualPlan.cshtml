@@ -1,0 +1,199 @@
+﻿<md-tab label="Індивідуальний план">
+    <md-content class="md-padding">
+        <div class="row">
+            <div class="col-md-6">
+                <md-button class="md-accent md-raised md-hue-1 pull-left"
+                           ng-click="addYear()">
+                    Додати культуру
+                </md-button>
+            </div>
+            <div class="col-md-3">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                Площа ділянки - <input ng-model="params.area" class="form-inline" style="width:70px" type="number" value="{{params.area}}">Га
+                @*<i class="fa fa-map-marker" aria-hidden="true"></i>  Площа ділянки - {{params.area}} Га*@
+            </div>
+            <div class="col-md-3">
+                Вміст гумусу - {{params.humusMapLayer.Value}} %
+            </div>
+        </div>
+        <div id="plan-dropdowns" class="row plan-dropdowns">
+            <div product-id="{{$index}}"
+                 ng-repeat="selectedProduct in selectedProducts track by $index"
+                 class="col-xs-12 col-sm-6 col-md-4 col-lg-2"
+                 style="min-width:320px;">
+                <md-input-container>
+                    <label>Культура</label>
+                    <md-select product-selector ng-model="selectedProduct.product">
+                        <md-option ng-repeat="product in products"
+                                   ng-value="{{product}}"
+                                   ng-selected="selectedProduct.product.name == product.name">
+                            {{product.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-card>
+                    <img ng-src="{{selectedProduct.product.imgSrc}}" class="md-card-image" alt="Washed Out">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{selectedProduct.product.name}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-slider-container class="p-5">
+                        <span>Внесено біогумусу (т/га)</span>
+                        <md-slider class="col-md-9 m-0 h-30" min="0" max="4" step="0.1" aria-label="blue" id="price-slider"
+                                   ng-model="selectedProduct.product.fertilizer"
+                                   ng-change="getNPKBalance(selectedProduct)">
+                        </md-slider>
+                        <div class="col-md-3 p-0" style="margin-top: 10px;">
+                            {{selectedProduct.product.fertilizer}} (т/га)
+                        </div>
+                    </md-slider-container>
+                    <md-slider-container class="p-5">
+                        <span>Вибрати добриво 2:</span>
+                        <select class="col-md-12 form-select" style="width: 100%;" ng-model="selectedProduct.product.fertilizerType2">
+                            <option ng-repeat="fertilizer in fertilizerTypes"
+                                    ng-value="{{fertilizer}}"
+                                    @*ng-selected="fertilizer.name == fertilizerTypes[0].name"*@>
+                                {{fertilizer.name}}
+                            </option>
+                        </select>
+                        <md-slider class="col-md-9 m-0 h-30" min="0" max="{{selectedProduct.product.fertilizerType2.max}}" step="0.1" aria-label="blue" id="price-slider2"
+                                   ng-show="selectedProduct.product.fertilizerType2 != undefined"
+                                   ng-model="selectedProduct.product.fertilizer2"
+                                   ng-change="getNPKBalance(selectedProduct)">
+                        </md-slider>
+                        <div class="col-md-3 p-0" style="margin-top: 10px;" ng-show="selectedProduct.product.fertilizerType2 != undefined">
+                            {{selectedProduct.product.fertilizer2}} (т/га)
+                        </div>
+                    </md-slider-container>
+                    <md-slider-container class="p-5">
+                        <span>Вибрати добриво 3:</span>
+                        <select class="col-md-12 form-select" style="width: 100%;" ng-model="selectedProduct.product.fertilizerType3">
+                            <option ng-repeat="fertilizer in fertilizerTypes"
+                                    ng-value="{{fertilizer}}"
+                                    @*ng-selected="fertilizer.name == fertilizerTypes[0].name"*@>
+                                {{fertilizer.name}}
+                            </option>
+                        </select>
+                        <md-slider class="col-md-9 m-0 h-30" min="0" max="{{selectedProduct.product.fertilizerType3.max}}" step="0.1" aria-label="blue" id="price-slider2"
+                                   ng-show="selectedProduct.product.fertilizerType3 != undefined"
+                                   ng-model="selectedProduct.product.fertilizer3"
+                                   ng-change="getNPKBalance(selectedProduct)">
+                        </md-slider>
+                        <div class="col-md-3 p-0" style="margin-top: 10px;" ng-show="selectedProduct.product.fertilizerType3 != undefined">
+                            {{selectedProduct.product.fertilizer3}} (т/га)
+                        </div>
+                    </md-slider-container>
+                    <md-container class="p-5" @*style="position: absolute; bottom: 3%; left: 10%;"*@>
+                        <span>Баланс поживних речовин (кг/га): {{selectedProduct.NPKBalance}}</span>
+                    </md-container>
+                    <md-container class="p-5">
+                        <span>Баланс гумусу: {{selectedProduct.HumusBalance}} (т/га)</span>
+                    </md-container>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button class="pull-right" ng-click="deleteYear($index)">Видалити</md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </div>
+        <div class="row">
+            @*<div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="params.useMech" id="flexCheckChecked" ng-checked="params.useMech">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            Використовувати мехсклад
+                        </label>
+                    </div>
+                </div>*@
+            <div class="col-md-12">
+                <md-button md-no-ink class="pull-right md-accent md-raised md-hue-1"
+                           ng-click="showRecommendation()">
+                    Отримати рекомендації
+                </md-button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <md-list id="recomendation-list" flex ng-show="LoadSuccess" class="recomendation-list">
+                    <md-subheader class="md-no-sticky">
+                        <h3>Наші рекомендації</h3>
+                    </md-subheader>
+                    <div class="alert alert-info">
+                        <strong>Увага!</strong> Надані рекомендації надаються на основі рівнянь регресії для кожної обраної культури та з врахуванням середньої ціни (за центнер) продукції та вартості сертифікації (на Га).
+                        Результат обробки являє собою лише теоретичний прогноз і не є інструкцією до виконання
+
+                    </div>
+                    <md-list-item class="md-3-line" ng-click="null">
+                        <div class="md-list-item-text" layout="column">
+                            <p>
+                                На підготовчому етапі варто провести еколого-еклономічне обґрунтування органічного виробництва, спланувати сівозміну з врахуванням вимог органічних стандартів (широке використання посівів багаторічних трав та обмеження площі зернових культур (не більше 50%); продумати організаційні моменти виробничого процесу, знайти потенційних покупців органічної продукції.
+                                За різноманітністю й ефективністю дії на ґрунт і рослину сівозмінний чинник переважає інші не менш важливі заходи. Його вплив стосується багатьох ґрунтових процесів і найрізноманітніших аспектів росту і розвитку рослин. Планується сівозміна таким чином, щоб підтримати біорізноманіття, забезпечити надійний захист від шкідників та хвороб, посприяти збереженню основних властивостей ґрунту, управляти структурою ґрунту та підвищувати  його родючість природним шляхом. До складу сівозміни включають зернові й технічні культури, багаторічні трави і обов’язково сидерати.
+                                За правилами органічного землеробства під посівами багаторічних бобових трав — конюшини, люцерни, еспарцету, буркуну й ін. має бути не менше як 35–40% посівної площі. Вони визначають можливість упровадження отавної сидерації. Зеленим добривам в основних і проміжних посівах має належати 20–25% з обов’язковим застосуванням подрібненої соломи зернових і бобових культур, подрібнених стебел кукурудзи ін.
+
+                            </p>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="null">
+                        <div class="md-list-item-text" layout="column">
+                            <p>
+                                Перед подачею заявки до сертифікаційного органу зібрати всі необхідні довідки; оформити за всіма правилами документи на землю або заключити договори оренди.
+                                Перехідний період починається не раніше, ніж оператор повідомить сертифікаційний орган про свої наміри.  Наприклад, початком перехідного періоду може вважатися дата подачі заявки на проведення інспекційних та сертифікаційних робіт. Але це лише за умови, коли від дати подання заявки і підписання контракту минуло не більше 6-ти місяців, і в цей період були витримані вимоги стандартів органічного виробництва. За певних умов датою початку перехідного періоду може вважається дата останнього застосування заборонених до використання в органічному виробництві ЗЗР та добрив.
+
+                            </p>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-3-line" ng-click="null">
+                        <div class="md-list-item-text" layout="column">
+                            <p>
+                                Мінімальний земельний банк для вирощування органічних зернових становить від 50 га, з врахуванням облаштованих
+                                буферних зон, захисних лісосмуг, еколого-стабілізуючих полів із багаторічними травами або сидератами. Орієнтовна
+                                вартість сертифікації становитиме {{recommendations[0].AdditionalExepencesOnCertification}} грн (тобто 1,5 тис. грн \ га).
+                                При плануванні сівозміни, варто дослідити історію використання поля. Так, після інтенсивного використання земель
+                                (характерно для зони Лісостепу в Рівненської області), з метою оптимізації основних агрохімічних показників, доцільно
+                                сіяти багаторічні трави або сидерати. Якщо ж, землі тривалий час не оброблялися (перелоги) або простоювали (характерно
+                                для зони Полісся в Рівненської області) перший рік варто висіяти сидерати із заорюванням зеленої маси. Це сприятиме покращенню
+                                механічного складу ґрунту, допоможе в боротьбі  з бур’янами та хворобами.
+
+                            </p>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                    <md-list-item class="md-3-line"
+                                  ng-repeat="recommendation in recommendations track by $index"
+                                  ng-click="null">
+                        <img ng-src="{{recommendation.imgSrc}}" class="md-avatar" alt="{{item.name}}" />
+                        <div class="md-list-item-text" layout="column">
+                            <p>
+                                {{recommendation.Culture}}. Враховуючи вміст гумусу в ґрунті на момент висіву, урожай з дотриманням органічних технологій очікуємо
+                                на рівні {{recommendation.Productivity}} ц/га. Баланс гумусу при цьому {{recommendation.HumusBalance.toFixed(2)}} т/га. При розрахунку балансу гумусу враховано надходження
+                                органічної речовини за рахунок органічних добрив, приорювання поверхневих та кореневих решток. Очікуваний
+                                вміст гумусу в ґрунті на кінець року становитиме {{recommendation.ExpectedLevelOfHumus}}%. Витрати на біогумус згідно ринкових цін складуть {{recommendation.AdditionalExepencesOnHumus}} тис.грн/га.
+                                Вартість товарної продукції (зерна) оцінюємо в {{recommendation.Income}} грн. <i class="fa fa-money" aria-hidden="true"></i>
+
+                                @*На {{recommendation.Year}} рік Вам потрібно внести {{recommendation.AddedFertilizer}} т/га гумусу.
+                                    При цьому варто вирощувати {{recommendation.Culture}}.
+                                    Ваш баланс гумусу після {{recommendation.Year}} року: {{recommendation.HumusBalance.toFixed(2)}}.
+                                    Очікуваний рівень гумусу {{recommendation.ExpectedLevelOfHumus}}%.
+                                    Додаткові витрати на гумус {{recommendation.AdditionalExepencesOnHumus}} тис.грн/га,
+                                    на сертифікацію {{recommendation.AdditionalExepencesOnCertification}} грн.
+                                    З вашої культури ви отримаєте {{recommendation.Product}}.
+                                    Урожайність продукції {{recommendation.Productivity}} ц/га.
+                                    Ціна за {{recommendation.Product}} - {{recommendation.ProductCost}} тис.грн/т.
+                                    Вартість продукції  {{recommendation.SummaryProductCost}} грн.
+                                    Ваш прибуток: {{recommendation.Income}} грн <i class="fa fa-money" aria-hidden="true"></i>*@
+                            </p>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </div>
+        <div class="alert alert-info">
+            Також ви можете скористатися автоматичним перебором всіх можливих варіантів
+            внесення добрив протягом вибраного періоду для даної сівозміни.
+            Для цього натисніть <a href="#" ng-click="tabRedirectTo_CulcAllComb()">тут</a>
+        </div>
+    </md-content>
+</md-tab>

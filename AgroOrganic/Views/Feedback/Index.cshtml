@@ -1,0 +1,26 @@
+﻿@model AgroOrganic.Models.Feedback
+@{
+    ViewBag.Title = "Зворотній зв'язок";
+}
+
+<div class="container">
+    <h2> @ViewBag.Title </h2>
+    @using (Html.BeginForm("Create", "Feedback", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Text)
+            @Html.TextAreaFor(m => m.Text)
+        </div>
+
+        <input type="submit" class="btn btn-default" value="Create" />
+    }
+</div>

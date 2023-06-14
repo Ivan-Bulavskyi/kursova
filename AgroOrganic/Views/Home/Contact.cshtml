@@ -1,0 +1,123 @@
+﻿@section styles {
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/index.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/site.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/advices.css")'>
+    <link href="~/Content/Pages/welcome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/Libs/animate.css">
+    <link href="~/Content/Libs/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="~/Content/Libs/owl.carousel.css">
+
+    <!--?-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+@Html.Partial("_Navbar")
+<section id="call-to-action" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 wow">
+                <div class="block">
+                    <h2 class="header">КОНТАКТИ</h2>
+                    <h4>Хочете дізнаватися про новини порталу в числі перших?</h4>
+                    <p></p>
+                    <div class="form-group">
+                        <form class="subs-form">
+                            <input name="Email" type="email" class="form-control" placeholder="Введіть вашу електронну адресу" id="susb-email" />
+                            <button class="btn btn-default btn-submit" type="submit" id="subscribe-btn">Підписатися на оновлення</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="row">
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 ">
+                    <div class="block">
+                        <div class="heading">
+                            <h2>НАПИШІТЬ НАМ</h2>
+                            <p>Ми відкриті до співраці, отримання побажань, зауважень, критики, тощо. Будемо раді новим знайомствам та цікавим ідеям! Ми чекаємо на ваш лист!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-5 contact-info">
+                    <div class="form-group">
+                        <form id="contact-form">
+                            <div class="input-field">
+                                <input id="MsgName" type="text" class="form-control" name="name" placeholder="Ваше ім'я" />
+                            </div>
+                            <div class="input-field">
+                                <input id="MsgEmail" type="email" class="form-control" name="email" placeholder="Електронна адреса" />
+                            </div>
+                            <div class="input-field">
+                                <textarea id="MsgText" class="form-control" name="message" placeholder="Текст повідомлення" rows="3"></textarea>
+                            </div>
+                            <button class="btn-send" type="submit" id="contact-btn">Надіслати</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-5 col-md-offset-1 contact-info">
+                    <div class="block text-left">
+                        <div class="sub-heading">
+                            <h4>Адреса для листування</h4>
+                            <p>  </p>
+                        </div>
+                        <address class="address">
+                            <p>
+                                <br>Національний університет водного господарства та природокористування<br>
+                                вул. Соборна 11,<br> м. Рівне,<br> Україна
+                            </p>
+                            <p>
+                                <strong>Facebook:</strong>&nbsp;<a href="https://www.facebook.com/OrganicPortal/">Organic Portal</a><br>
+                                <strong>E:</strong>&nbsp;portalorganic@gmail.com<br>
+                                <strong>P:</strong>&nbsp;+380962250350<br>
+                                <strong>P:</strong>&nbsp;+380979372093<br>
+                            </p>
+                        </address>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+</div>
+@Html.Partial("_AboutSite")
+
+<script src="~/Scripts/Pages/services/UserService.js"></script>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>
+<script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>
+<script src="~/Scripts/Pages/controllers/CertificationController.js"></script>
+<script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+<script src="~/Scripts/Pages/controllers/FooterController.js"></script>
+<script src="~/Scripts/Pages/controllers/AdvicesController.js"></script>
+
+@section scripts {
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/Pages/index.js" charset="windows-1251"></script>
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?components=country:Ukraine&key=AIzaSyAgb4Z68gbhiTBDVd0-reiSl-h5DBFknDU&libraries=places&language=uk"></script>
+    <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js" charset="utf-8"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+
+    <script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+    <script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.form.js"></script>
+    <script src="~/Scripts/Libs/jquery.nav.js"></script>
+    <script src="~/Scripts/Libs/jquery.sticky.js"></script>
+    <script src="~/Scripts/Libs/plugins.js"></script>
+    <script src="~/Scripts/Libs/wow.min.js"></script>
+    <script src="~/Scripts/Pages/welcome.js"></script>
+}

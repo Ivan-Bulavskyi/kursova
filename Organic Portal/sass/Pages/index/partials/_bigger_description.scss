@@ -1,0 +1,122 @@
+.description {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 10px;
+    //display: none;
+}
+
+.feature-title {
+    .feature-title-block {
+        width: 10%;
+        float: left;
+    }
+    .recomendation-info-block {
+        width: 90%;
+        border-radius: 3px;
+        background-color: #52944C !important;
+        float: left;
+        color: white;
+        .recomendation-info-date {
+            font-weight: bold;
+            font-size: 1.6rem;
+        }
+        .recomendation-info-rate {
+            padding: 15px;
+            font-weight: bold;
+            font-size: 1.8rem;
+            span {
+                margin-left: 10px;
+                color: yellow;
+                font-weight: bolder;
+            }
+        }
+    }
+    img {
+        height: 75px;
+        width: 75px;
+    }
+    overflow: hidden;
+}
+
+.field-passport{
+	margin-top: 10px;
+	overflow: hidden;	
+}
+
+.passport-label{
+	color: gray;
+	font-weight: bold;
+}
+
+.grow {
+    //background-color: gray;
+    overflow: hidden;
+    .grow-title {
+        font-size: 1.6rem;
+        .should-grow-title{
+        	color: lightgreen;
+        }
+        .not-should-grow-title{
+        	color: #BA3B46;
+        }
+    }
+    .grow-cultures-list {
+        height: 500px;
+        .grow-cultures-list-item {
+            border-radius: 4px;
+            float: left;
+            margin: 5px;
+            height: 150px;
+            width: 125px;
+            overflow: hidden;
+            .list-item-img {
+                height: 125px;
+                img {
+                    height: 100%;
+                    width: 100%;
+                }
+            }
+            .list-item-title {
+                line-height: 25px;
+            }
+        }
+    }
+    .should {
+        .grow-cultures-list-item {
+            border: 1px solid green;
+        }
+    }
+    .not-should {
+        .grow-cultures-list-item {
+            border: 1px solid #BA3B46;
+            background-color: #BA3B46;
+        }
+    }
+}
+
+//731E22
+.field-photo {
+    height: 300px;
+    img {
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.chem-elem-desc {
+    height: 400px;
+    margin-top: 5px;
+    .modal-body {
+        padding-right: 15px;
+        padding-left: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    .panel {
+        width: 100%;
+    }
+}

@@ -1,0 +1,30 @@
+﻿<div class="navbar-default navbar-fixed-top" id="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+
+                <img class="logo-1" src="~/Images/logo.png" alt="LOGO">
+                <img class="logo-2" src="~/Images/logo.png" alt="LOGO">
+
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <nav class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav navbar-right" id="top-nav">
+                <li class="current"><a href="#body">Головна</a></li>
+                <li><a href="#about">Про нас</a></li>
+                <li><a href="#service">Можливості</a></li>
+                <li><a href="#team">Команда</a></li>
+                <li><a href="#contact">Контакти</a></li>
+                <li>@Html.Partial("_loginPartial")</li>
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+.about-site{
+  //height: 500px;
+  width: 100%;
+  background: url(../../img/wall.jpg);
+  background-size: 100% 500px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  .site-info{
+  	padding: 10% 20%;
+  	opacity: 0.8;
+  	header{
+  		font-size: 1.8rem;
+  		border-bottom: 2px solid yellow;
+  		color: white;
+  		margin: 10px 0;
+  		font-weight: bold;
+  	}
+  	ul{
+  		list-style: circle;
+  		li{
+  			color: white;
+  			padding: 5px 0;
+  			a{
+  				color: white;
+  				font-size: 1.5rem;
+  				font-weight: bold;
+          cursor: pointer;
+  			}
+  		}
+  	}
+  }
+}

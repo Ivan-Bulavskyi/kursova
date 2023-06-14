@@ -1,0 +1,306 @@
+﻿@section styles {
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/index.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/site.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/advices.css")'>
+    <link href="~/Content/Pages/welcome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/Libs/animate.css">
+    <link href="~/Content/Libs/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="~/Content/Libs/owl.carousel.css">
+
+    <!--?-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+@Html.Partial("_Navbar")
+<div class="row">
+    <div class="indicators-list">
+        <ul ng-controller="PostsController">
+            <div id="processing" class="modal-body" style="height: 100%">
+                <div ng-controller="ProductController" data-ng-init="getPosts()">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li ng-repeat="post in posts" role="presentation">
+                            <a class="post-title" ng-click="showAdvanced($event, post)" type="button" href="#">{{post.Title}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+@Html.Partial("_AboutSite")
+
+<script src="~/Scripts/Pages/services/UserService.js"></script>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>
+<script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>
+<script src="~/Scripts/Pages/controllers/CertificationController.js"></script>
+<script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+<script src="~/Scripts/Pages/controllers/FooterController.js"></script>
+<script src="~/Scripts/Pages/controllers/AdvicesController.js"></script>
+
+
+<script type="text/ng-template" id="recommendation.tmpl.html">
+    <div style="z-index: 99999;">
+        <md-dialog>
+            <form ng-cloak>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h4>Рекомендації</h4>
+                        <span flex></span>
+                        <md-button class="md-icon-button" ng-click="cancel()">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-dialog-content>
+                    <div data-ng-init="showRecommendation()" class="md-dialog-content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Наші рекомендації:</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <md-slider-container>
+                                    <span>Роки</span>
+                                    <md-slider flex="" min="1" max="25" ng-model="recom.years" aria-label="blue" id="year-slider">
+                                    </md-slider>
+                                    <md-input-container>
+                                        <input flex="" type="number" ng-model="recom.years" aria-label="red" aria-controls="year-slider">
+                                    </md-input-container>
+                                </md-slider-container>
+                            </div>
+                            <div class="col-md-6">
+                                <md-slider-container>
+                                    <span>Ціна</span>
+                                    <md-slider flex="" min="1000" max="10000" ng-model="recom.price" aria-label="blue" id="price-slider">
+                                    </md-slider>
+                                    <md-input-container>
+                                        <input flex="" type="number" ng-model="recom.price" aria-label="red" aria-controls="price-slider">
+                                    </md-input-container>
+                                </md-slider-container>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div ng-show="LoadSuccess">
+                                    <p>
+                                        Ваші показники гумусу - {{recom.Humus.Value}} при оптимальних {{recom.Humus.OptimalValue}}
+                                    </p>
+                                    <p>
+                                        Потреба в гумусі т/га - {{recom.Humus.Need.toFixed(2)}} при перерахуках на біогумус {{recom.Humus.BioNeed.toFixed(2)}}
+                                    </p>
+                                    <p>
+                                        Вартість потрібного вам біогумусу на гектар - {{recom.Humus.PricePerHectare.toFixed(2)}} тис.грн,
+                                        період внесення біогумусу {{recom.Humus.MakingPeriod.toFixed(2)}} років,
+                                        щорічні витрати {{recom.Humus.YearCosts.toFixed(2)}} тис.грн/га.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </md-dialog-content>
+            </form>
+        </md-dialog>
+    </div>
+</script>
+
+<script type="text/ng-template" id="about.tmpl.html">
+    <md-dialog>
+        <form ng-cloak>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h4>Про сервіс</h4>
+                    <span flex></span>
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+                <div class="md-dialog-content">
+                    <div class="row">
+                        <div class="col-md-7 col-sm-12">
+                            <h3>Метою проекту є забезпечення управління аграрним виробництвом на основі геоінформаційно-аналітичних систем, впроваджені перспективних технологій агропромислового комплексу, врахуванні об’єктивних факторів розвитку ринкової економіки та нарощування експортного потенціалу держави</h3>
+                            Портал вирішує проблему сучасного інформаційного, консультаційного, бізнесового, маркетингового, дорадчого забезпечення аграрного виробництва. Портал міститиме системну та оброблену інформацію про: можливості і доцільність способів використання земель; рентабельність, спеціалізацію, екологічну та соціальну відповідальність бізнесу; еколого-економічне обґрунтування доцільності та витрат на перехід до органічного виробництва в режимі запиту (онлайн); облік якості і кількості врожаїв, контроль за використанням земель або врожаїв; можливості встановлення датчиків та їх контролю із моніторингу та інших функцій; аналіз агрохімічних показників грунту та показників забезпеченості поживними речовинами рослин тощо.
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <img src="/Images/2.png" class="center-block" />
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-12 col-sm-12">
+                            <h2>Можливості порталу</h2>
+                            Ідея геоінформаційно-аналітичної системи (геопорталу) полягає у створенні універсальної інформаційної платформи, здатної інтегрувати відомості агровиробничого характеру на різних рівнях виробництва, представляти у вигляді картограм і графіків та розподіляти отримані результати за допомогою спеціалізованого Web-ГІС додатку
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <h4>ПРИДАТНІСТЬ ДО ОРГАНІКИ</h4>
+                            <p>Наша система аналізує агрохімічні показники земельної ділянки і вказує наскільки придатна вона до органічного землевиробництва</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <h4>ЕКОНОМІЧНА ЕФЕКТИВНІСТЬ</h4>
+                            <p>Врахувавши ряд факторів, ми можемо підказати скільки коштів вам потрібно витратити для переходу до органічного землеробства</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <h4>ПРАВИЛА СЕРТИФІКАЦІЇ</h4>
+                            <p>Ми зібрали всю необхідну документацію для проходження сертифікації. Отримання сертифікату відкриває двері до нового ринку збуту</p>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <h4>ПЕРЕРОБКА ТА ЗБУТ</h4>
+                            <p>Експерти нададуть інформацію про рекомендовані с/г культури, перехідний період, технології вирощування, заготівлі та переробки.</p>
+                        </div>
+                    </div>
+                    <div class="row block-center">
+                        <div style="min-height: 125px !important;" class="col-md-12">
+                            <div class="block">
+                                <h3 class="text-center">ХОЧЕТЕ БУТИ ПЕРШИМИ ХТО ДІЗНАЄТЬСЯ ПРО ВІДКРИТТЯ ПОРТАЛУ?</h3>
+                                <p></p>
+                                <div ng-show="subscribeForm">
+                                    <div class="col-md-9">
+                                        <md-input-container class="md-block">
+                                            <label>Введіть вашу електронну адресу</label>
+                                            <input required="" type="email" name="Email" ng-model="Email" minlength="6" maxlength="100" ng-pattern="/^.+@@.+\..+$/">
+                                            <div ng-messages="Email.$error" role="alert">
+                                                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                                                    Error!
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <md-button ng-click="subscribe()" class="md-raised md-primary block-center">Підписатися на оновлення</md-button>
+                                    </div>
+                                </div>
+                                <div ng-show="subscribeSuccess">
+                                    <h4 style="color: green;" class="text-center">Ви успішно підписались на оновлення!</h4>
+                                </div>
+                                <div ng-show="subscribeFail">
+                                    <h4 style="color: red;" class="text-center">Виникла помилка, спробуйте пізніше</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </md-dialog-content>
+        </form>
+    </md-dialog>
+</script>
+
+<script type="text/ng-template" id="dialog1.tmpl.html">
+    <md-dialog>
+        <form ng-cloak>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h4 class="col-md-9 pull-left">{{post.Title}}</h4>
+                    <span flex></span>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <ul class="post-control nav nav-pills col-md-1 pull-right">
+                            <li role="presentation">
+                                <a class="post-control" ng-href="/admin/posts/edit?postId={{post.Id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            </li>
+                            <li role="presentation">
+                                <a class="post-control" href="#" ng-click="DeletePost(post.Id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+
+                    }
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+                <div class="md-dialog-content">
+                    <p ng-bind-html="post.Text"></p>
+                </div>
+            </md-dialog-content>
+        </form>
+    </md-dialog>
+</script>
+
+<script>
+
+
+    (function ($) {
+
+        $(window).on("load", function () {
+
+            $(function () {
+
+                $('#datepicker1').datepicker({
+                    locale: 'uk'
+                });
+                $("#AddButton").tooltip({
+                    disabled: true,
+                    content: "Необхідно зберегти або відмінити поточний полігон.",
+                    show: {
+                        effect: "slideDown"
+                    }
+                });
+                $("#SavePolyButton").tooltip({
+                    disabled: true,
+                    content: "Продовжіть введення данних або відмініть поточний полігон.",
+                    position: { my: "left-30 top+10", at: "left bottom" },
+                    show: {
+                        effect: "slideDown",
+                    },
+                    open: function (event, ui) {
+                        setTimeout(function () {
+                            $(ui.tooltip).hide("fade");
+                        }, 2500);
+                    },
+                    close: function (event, ui) {
+                        $(event.target).attr("title", "");;
+                    }
+                });
+            });
+
+            $(".modal-body").mCustomScrollbar({
+                theme: "minimal-dark"
+            });
+
+            $(".search-filter-analyse ul > li").on("click", function () {
+                $(this).hide();
+            })
+
+        });
+    })(jQuery);
+</script>
+
+@if (User.IsInRole("admin"))
+{
+    <script type="text/javascript">
+        function LoadFilemanager() {
+            var mngrWnd = window.open("/scripts/libs/filemanager/index.html",
+                "",
+                'location=no,toolbar=no,menubar=no,directories=no,status=no,resizable=yes,scrollbars=yes,height=600,width=750, ' +
+                'false');
+        };
+    </script>
+}
+
+
+@section scripts {
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/Pages/index.js" charset="windows-1251"></script>
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?components=country:Ukraine&key=AIzaSyAgb4Z68gbhiTBDVd0-reiSl-h5DBFknDU&libraries=places&language=uk"></script>
+    <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js" charset="utf-8"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+
+    <script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+    <script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.form.js"></script>
+    <script src="~/Scripts/Libs/jquery.nav.js"></script>
+    <script src="~/Scripts/Libs/jquery.sticky.js"></script>
+    <script src="~/Scripts/Libs/plugins.js"></script>
+    <script src="~/Scripts/Libs/wow.min.js"></script>
+}

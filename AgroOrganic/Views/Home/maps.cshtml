@@ -1,0 +1,1307 @@
+﻿@section styles {
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/index.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/site.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/advices.css")'>
+    <link href="~/Content/Pages/welcome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/Libs/animate.css">
+    <link href="~/Content/Libs/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="~/Content/Libs/owl.carousel.css">
+
+    <!--?-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+
+<div class="container-fluid" ng-controller="MapController" data-ng-init="init()">
+    <div class="row">
+        <div class="site-header">
+            <a class="suitability" href="http://organicportal.in.ua/">
+                <img src="~/Images/organic_logo_png.png">
+            </a>
+            <nav class="navmain">
+                <!--Menu-->
+                <ul>
+                    <li> <a class="map" id="page">Карта</a></li>
+                    <li> <a class="technology" href="/Home/Technology">Технологія</a></li>
+                    <li> <a class="certification">Сертифікація</a></li>
+                    <li> <a class="processing">Переробка</a></li>
+                    <li> <a class="contacts" href="/Home/Contact"> Контакти </a></li>
+                    <li> <a class="team" href="/Home/Team"> Команда </a></li>
+                    <li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                //@*@Html.ActionLink("Hello" + User.Identity.Name, "Index", "Manage", new {}, new { id="lgnBtn" })*@
+                                <div id="manageButton" class="dropdown clearfix">
+                                    <button id="manageButton" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        Привіт @User.Identity.Name
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right">
+                                        <li><a href="/Manage"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Налаштування профілю</a></li>
+                                        @if (User.IsInRole("admin"))
+                                        {
+                                            <li class="divider"></li>
+                                            <li class="dropdown-header">Адміністрування</li>
+                                            <li><a href="/Admin/Posts"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Менеджер постів</a></li>
+                                            <li><a href="#" onclick="LoadFilemanager()"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;Керування файлами</a></li>
+                                            <li><a href="/MapLayers"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Налаштування шарів</a></li>
+                                        }
+                                        <li class="divider"></li>
+                                        <li>
+                                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                                <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Вийти
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <button id="lgnButton" type="button" data-toggle="modal" data-target="#lgnModal">Вхід</button>
+                            <div id="lgnModal" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            @Html.Partial("/Views/Account/Login.cshtml")
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </li>
+                </ul>
+            </nav>
+            <div id="trapezoid"></div>
+        </div>
+    </div>
+    <section class="work-place">
+        <!--Search-->
+        <section class="search-container">
+            <div class="input-place row">
+                <div class="form-group">
+                    <input type="search" id="usr" class="form-control">
+                    <input type="button" disabled>
+                </div>
+            </div>
+            <div class="indicators-list filters">
+                <ul ng-controller="PostsController" id="suitability" class="modal-body">
+                    <li class="filter-item kadastr">
+                        <input type="checkbox" ng-model="kadastrDisplay" ng-change="changeKadastrDisplay(kadastrDisplay)" checked>Показати дані з кадастрової карти
+                    </li>
+                    <li class="filter-item">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Картографічні матеріали
+                            </button>
+                            <div class="dropdown-menu scrollable-menu" aria-labelledby="dropdownMenuButton">
+
+                                <input class="dropdown-item" type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="openStreetMap" checked>OpenStreetMap
+
+                                <input class="dropdown-item" type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="roadMutant">Google RoadMap
+
+                                <input class="dropdown-item" type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="satMutant">Google AerialMap
+
+                                <input class="dropdown-item" type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="terrainMutant">Google TerrainMap
+
+                                <input class="dropdown-item" type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="hybridMutant">Google HybridMap
+                            </div>
+                        </div>
+                    </li>
+                    <li class="filter-item">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Основні агрохімічні показники
+                            </button>
+                            <div class="dropdown-menu scrollable-menu main-agro-indicators" aria-labelledby="dropdownMenuButton">
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" value="pH грунту">pH грунту
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" value="Органічна речовина">Органічна речовина
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="n-filter" value="Азот (N)">Азот (N)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="p-filter" value="Фосфор (P)">Фосфор (P)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="k-filter" value="Калій (К)">Калій (К)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="s-filter" value="Сірка (S)">Сірка (S)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="zn-filter" value="Цинк (Zn)">Цинк (Zn)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="mn-filter" value="Марганець (Mn)">Марганець (Mn)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="cu-filter" value="Мідь (Cu)">Мідь (Cu)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="b-filter" value="Бор (B)">Бор (B)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="co-filter" value="Кобальт (Co)">Кобальт (Co)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="cs-filter" value="Цезій (Cs)">Цезій (Cs)
+
+                                <input class="dropdown-item" type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="sr-filter" value="Стронцій (Sr)">Стронцій (Sr)
+                            </div>
+                        </div>
+                    </li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>
+                            <i aria-hidden="true" class="fa fa-angle-right"> </i><span>Ділянки</span>
+                            <div id="fields" class="content areas-list-block">
+                                <div class="places-list">
+                                    <button type="button" id="AddButton" ng-class="{'disabled': addButtonDisabled}" ng-click="AddButtonClicked()" title="" class="btn btn-default">Додати</button>
+                                    <button type="button" id="SavePolyButton" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="saveButtonClicked()" title="" class="btn btn-default" style="margin-left: 5px">Внести показники</button>
+                                    <button type="button" class="btn btn-default" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="cancelButtonClicked()" style="margin-left: 5px">Відмінити</button>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" ng-mouseover="AreaItemHovered(poly)" ng-repeat="poly in currentPolygons">
+                                            <a class="remove" ng-click="AreaItemDelete(poly)" style="cursor: pointer;"><i class="fa fa-times"></i></a><a class="edit" ng-click="AreaItemEdit(poly)" style="cursor: pointer;"><i class="fa fa-pencil"></i></a>
+                                            <div class="area-info">
+                                                <i class="fa fa-map-marker fa-2x"></i>
+                                                <ul>
+                                                    <li>Zone {{poly.feature.id}}</li>
+                                                    <li><i class="fa fa-user"> </i><strong>{{poly.feature.creator}}</strong><i class="fa fa-calendar"> </i><strong>{{poly.feature.date | date:'dd/MM/yyyy'}}</strong></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i aria-hidden="true" class="fa fa-angle-right"></i><span>Введення показників</span>
+                            <div id="input" class="content">
+                                <table class="table analyse">
+                                    <thead>
+                                        <tr>
+                                            <td>Показник</td>
+                                            <td>Значення</td>
+                                            <td>Од. виміру</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mLayer in mapLayers">
+                                            <td>{{mLayer.Name}}</td>
+                                            <td><input type="number" ng-model="mapLayers[$index].Value"></td>
+                                            <td>{{mLayer.Measure}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <md-content layout-padding="">
+                                    <ng-form name="dateForm">
+                                        <md-datepicker ng-model="polygonCreateDate.value" md-placeholder="Введіть дату" md-open-on-focus=""></md-datepicker>
+                                    </ng-form>
+
+                                    <button type="button" ng-click="CommitValuesNew()" class="btn btn-default" ng-class="{'disabled': !dateForm.$valid}" style="margin-left: 10px">Зберегти </button>
+                                    <button type="button" class="btn btn-default" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="cancelButtonClicked()" style="margin-left: 10px">Відмінити</button>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <!--Map-container-->
+            <section class="map-container">
+                <div id="map">
+                    <div class="legend-tooltip">
+                        <button id="close-tooltip-btn"><i class="fa fa-close"></i></button>
+                        <div class="modal-body">
+                            <table class="table"></table>
+                        </div>
+                    </div>
+                </div>
+                <div id="tooltip"></div>
+                <div id="dialog-confirm" title="Видалення полігону" style="display: none">
+                    <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 12px 12px 20px 0;"></span>Ви впевнені що хочете видалити цей полігон?</p>
+                </div>
+            </section>
+
+            <!--indicators-->
+            <div class="indicators-list analize">
+                <ul ng-controller="PostsController">
+                    <div id="suitability" class="modal-body" style="height: 100%;">
+                        <li>
+                            <span><h3>АНАЛІЗ ПОКАЗНИКІВ</h3></span>
+                            <div id="analyse" class="content">
+                                <table class="table analyse">
+                                    <thead>
+                                        <tr>
+                                            <td>Показник</td>
+                                            <td>Значення</td>
+                                            <td>Од. виміру</td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mLayer in mapLayers">
+                                            <td>{{mLayer.Name}}</td>
+                                            <td>{{mLayer.Value}}</td>
+                                            <td>{{mLayer.Measure}}</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                                                        <span class="sr-only">60% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <span><h3>ЛЕГЕНДА</h3></span>
+                                <div id="legend">
+                                    <ul>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Реакція грунтового розчину</i>
+                                            <div class="content">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #C8FEC5" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>близькі до нейтральних</i></td>
+                                                        <td><strong>5,6 - 6,0 (pHсол.)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #80CD7F" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>нейтральні</i></td>
+                                                        <td><strong>6,1 - 7,0 (pHсол.)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #89FBFB" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>слаболужні</i></td>
+                                                        <td><strong>7,1 - 7,5 (pHсол.)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #807DFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середньолужні</i></td>
+                                                        <td><strong>7,6 - 8,0 (pHсол.)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих сполук фосфору (P)</i>
+                                            <div class="content">
+                                                <table class="p-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 26 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>26-50 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>51-100 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>101-150 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>151-250 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 250 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст гумусу</i>
+                                            <div class="content">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 1,1 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>1,1-2,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>2,1-3,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>3,1-4,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>4,1-5,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 5,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих сполук калію (K)</i>
+                                            <div class="content">
+                                                <table class="k-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 41 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>41-80 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>81-120 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>121-170 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>171-250 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 250 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм сірки (S)</i>
+                                            <div class="content">
+                                                <table class="s-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 3,1 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>3,1-6,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>6,1-9,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>9,1-12,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>12,1-15,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 15,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм марганцю (Mn)</i>
+                                            <div class="content">
+                                                <table class="mn-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 5,1 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>5,1-7,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>7,1-10,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>10,1-15,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>15,1-20,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 20,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм цинку (Zn)</i>
+                                            <div class="content">
+                                                <table class="zn-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 1,1 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>1,1-1,5 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>1,6-2,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>2,1-3,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>3,1-5,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 5,0 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм міді (Cu)</i>
+                                            <div class="content">
+                                                <table class="cu-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 0,11 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>0,11-0,15 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>0,16-0,20 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>0,21-0,30 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>0,31-0,50 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 0,50 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм кобальту (Co)</i>
+                                            <div class="content">
+                                                <table class="co-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 0,071 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>0,071-0,10 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>0,11-0,15 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>0,16-0,20 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>0,21-0,30 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 0,30 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм молібдену (Mo)</i>
+                                            <div class="content">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 0,05 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>0,05-0,07 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>0,08-0,10 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>0,11-0,15 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>0,16-0,22 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 0,22 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст рухомих форм бору (B)</i>
+                                            <div class="content">
+                                                <table class="b-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 0,15 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>0,15-0,22 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>0,23-0,33 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>0,34-0,50 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>високий</i></td>
+                                                        <td><strong>0,51-0,70 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #0000FF" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже високий</i></td>
+                                                        <td><strong>&gt; 0,70 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Групування за кислотністю</i>
+                                            <div class="content">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #CF2824" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже сильнокислі</i></td>
+                                                        <td><strong>&lt; 4,1 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #E0AACA" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>сильнокислі</i></td>
+                                                        <td><strong>4,1-4,5 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #EAD092" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середньокислі</i></td>
+                                                        <td><strong>4,6-5,0 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #F5F67C" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>слабокислі</i></td>
+                                                        <td><strong>5,1-5,5 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #B2F1B0" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>близькі до нейтральних</i></td>
+                                                        <td><strong>5,6-6,0 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #79B877" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>нейтральні</i></td>
+                                                        <td><strong>6,1-7,0 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #7DE8E8" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>слаболужні</i></td>
+                                                        <td><strong>7,1-7,5 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #8B8ACC" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середньолужні</i></td>
+                                                        <td><strong>7,6-8,0 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D8B7D9" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>сильнолужні</i></td>
+                                                        <td><strong>8,1-8,5 (pHксI)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #CDB789" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже сильнолужні</i></td>
+                                                        <td><strong>&gt; 8,5 (pHксI)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"</i><i>Вміст лужногідролізованого азоту(N)</i>
+                                            <div class="content">
+                                                <table class="n-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>дуже низький</i></td>
+                                                        <td><strong>&lt; 101 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FF8C00" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>101-150 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #F6F67C" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>151 - 200 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #53A551" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>підвищений</i></td>
+                                                        <td><strong>&gt; 200 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Щільність забруднення цезієм-137</i>
+                                            <div class="content">
+                                                <table class="cs-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color:#73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона умовно чиста</i></td>
+                                                        <td><strong>&lt; 1,0 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color:#8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона посиленого контролю</i></td>
+                                                        <td><strong>1,0-5,0 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона добровільного гарантованого відселення</i></td>
+                                                        <td><strong>5,1-15,0 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color:#D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона обов'язкового відселення</i></td>
+                                                        <td><strong>&gt; 15,0 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Щільність забруднення стронцій-90</i>
+                                            <div class="content">
+                                                <table class="sr-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color:#73FC70" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона умовно чиста</i></td>
+                                                        <td><strong>&lt; 0,02 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color:#8EFCFD" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона посиленого контролю</i></td>
+                                                        <td><strong>0,02-0,15 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FDFD7A" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона добровільного гарантованого відселення</i></td>
+                                                        <td><strong>0,16-3,0 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color:#D43733" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>зона обов'язкового відселення</i></td>
+                                                        <td><strong>&gt; 3,0 (Кі/км.кв)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <i aria-hidden="true"></i><i>Вміст обмінного калію(K)</i>
+                                            <div class="content">
+                                                <table class="k-legend">
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FECD98" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>низький</i></td>
+                                                        <td><strong>41-80 (мг/кг)</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="background-color: #FEFE6D" class="indicator"></div>
+                                                        </td>
+                                                        <td><i>середній</i></td>
+                                                        <td><strong>81-120 (мг/кг)</strong></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+
+
+                            @if (User.IsInRole("admin"))
+                            {
+                            <li>
+                                <i aria-hidden="true" class="fa fa-angle-right"> </i><span>Ділянки</span>
+                                <div id="fields" class="content areas-list-block">
+                                    <div class="places-list">
+                                        <button type="button" id="AddButton" ng-class="{'disabled': addButtonDisabled}" ng-click="AddButtonClicked()" title="" class="btn btn-default">Додати</button>
+                                        <button type="button" id="SavePolyButton" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="saveButtonClicked()" title="" class="btn btn-default" style="margin-left: 5px">Внести показники</button>
+                                        <button type="button" class="btn btn-default" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="cancelButtonClicked()" style="margin-left: 5px">Відмінити</button>
+                                        <ul class="list-group">
+                                            <li class="list-group-item" ng-mouseover="AreaItemHovered(poly)" ng-repeat="poly in currentPolygons">
+                                                <a class="remove" ng-click="AreaItemDelete(poly)" style="cursor: pointer;"><i class="fa fa-times"></i></a><a class="edit" ng-click="AreaItemEdit(poly)" style="cursor: pointer;"><i class="fa fa-pencil"></i></a>
+                                                <div class="area-info">
+                                                    <i class="fa fa-map-marker fa-2x"></i>
+                                                    <ul>
+                                                        <li>Zone {{poly.feature.id}}</li>
+                                                        <li><i class="fa fa-user"> </i><strong>{{poly.feature.creator}}</strong><i class="fa fa-calendar"> </i><strong>{{poly.feature.date | date:'dd/MM/yyyy'}}</strong></li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i aria-hidden="true" class="fa fa-angle-right"></i><span>Введення показників</span>
+                                <div id="input" class="content">
+                                    <table class="table analyse">
+                                        <thead>
+                                            <tr>
+                                                <td>Показник</td>
+                                                <td>Значення</td>
+                                                <td>Од. виміру</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="mLayer in mapLayers">
+                                                <td>{{mLayer.Name}}</td>
+                                                <td><input type="number" ng-model="mapLayers[$index].Value"></td>
+                                                <td>{{mLayer.Measure}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <md-content layout-padding="">
+                                        <ng-form name="dateForm">
+                                            <md-datepicker ng-model="polygonCreateDate.value" md-placeholder="Введіть дату" md-open-on-focus=""></md-datepicker>
+                                        </ng-form>
+
+                                        <button type="button" ng-click="CommitValuesNew()" class="btn btn-default" ng-class="{'disabled': !dateForm.$valid}" style="margin-left: 10px">Зберегти </button>
+                                        <button type="button" class="btn btn-default" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="cancelButtonClicked()" style="margin-left: 10px">Відмінити</button>
+                                </div>
+                            </li>
+                        }
+
+                            <!--Легенда-->
+                            </li>
+                            <li>
+                                <div class="conclusion" ng-controller="AdvicesController">
+
+                                    <div class="detail-description-btns">
+                                        <button id="detail-description-btn"><i aria-hidden="true">Детальний звіт</i></button>
+                                        <button class="map-recomendation-btn" id="recomendation-btn"><i ng-click="recommendations($event)" aria-hidden="true">Рекомендації</i></button>
+                                        <button class="map-recomendation-btn" id="description-btn"><i aria-hidden="true" ng-click="showAdvices()">Детальніший опис</i></button>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </section>
+        </section>
+
+        @model AgroOrganic.Models.Feedback
+        <!--Contacts-->
+        <!--footer-->
+        <footer class="about-site footer">
+            <div class="col-md-4">
+                <div class="site-info">
+                    <header>Мапа сайту</header>
+                    <ul type="circle">
+                        <li> <a class="map" href="/Home/Map">Карта</a></li>
+                        <li> <a class="technology" href="/Home/Technology">Технологія</a></li>
+                        <li> <a class="certification" href="/Home/Certification">Сертифікація</a></li>
+                        <li> <a class="processing" href="/Home/Processing">Переробка</a></li>
+                        <li> <a class="contacts" href="/Home/Contact"> Контакти </a></li>
+                        <li> <a class="team" href="/Home/Team"> Команда </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="site-info">
+                    <header>Допомога</header>
+                    <ul type="circle">
+                        <li><a>Про нас</a></li>
+                        <li><a>Як це працює?</a></li>
+                        <li><a>Умови користування</a></li>
+                        <li><a>Конфіденційність</a></li>
+                        <li><a>Запропонувати ідею</a></li>
+                        <li><a>Служба підтримки</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="site-info">
+                    <header>Контакти</header>
+                    <ul type="circle">
+                        <li><a>VK</a></li>
+                        <li><a>Facebook</a></li>
+                        <li><a>Twitter</a></li>
+                        <li><a>RivneStudents</a></li>
+                        <li><a>НУВГП</a></li>
+                        <li><a>organicportal@gmail.com</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+
+        @Html.Partial("_Advices")
+        <div class="row loader"><img src="~/Images/loading.gif"></div>
+    </div>
+    <script src="~/Scripts/Pages/services/UserService.js"></script>
+    <script src="~/Scripts/Pages/services/PostsService.js"></script>
+    <script src="~/Scripts/Pages/controllers/PostsController.js"></script>
+    <script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>
+    <script src="~/Scripts/Pages/controllers/CertificationController.js"></script>
+    <script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+    <script src="~/Scripts/Pages/controllers/FooterController.js"></script>
+    <script src="~/Scripts/Pages/controllers/AdvicesController.js"></script>
+
+
+    <script type="text/ng-template" id="recommendation.tmpl.html">
+        <div style="z-index: 99999;">
+            <md-dialog>
+                <form ng-cloak>
+                    <md-toolbar>
+                        <div class="md-toolbar-tools">
+                            <h4>Рекомендації</h4>
+                            <span flex></span>
+                            <md-button class="md-icon-button" ng-click="cancel()">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </md-button>
+                        </div>
+                    </md-toolbar>
+
+                    <md-dialog-content>
+                        <div data-ng-init="showRecommendation()" class="md-dialog-content">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Наші рекомендації:</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <md-slider-container>
+                                        <span>Роки</span>
+                                        <md-slider flex="" min="1" max="25" ng-model="recom.years" aria-label="blue" id="year-slider">
+                                        </md-slider>
+                                        <md-input-container>
+                                            <input flex="" type="number" ng-model="recom.years" aria-label="red" aria-controls="year-slider">
+                                        </md-input-container>
+                                    </md-slider-container>
+                                </div>
+                                <div class="col-md-6">
+                                    <md-slider-container>
+                                        <span>Ціна</span>
+                                        <md-slider flex="" min="1000" max="10000" ng-model="recom.price" aria-label="blue" id="price-slider">
+                                        </md-slider>
+                                        <md-input-container>
+                                            <input flex="" type="number" ng-model="recom.price" aria-label="red" aria-controls="price-slider">
+                                        </md-input-container>
+                                    </md-slider-container>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div ng-show="LoadSuccess">
+                                        <p>
+                                            Ваші показники гумусу - {{recom.Humus.Value}} при оптимальних {{recom.Humus.OptimalValue}}
+                                        </p>
+                                        <p>
+                                            Потреба в гумусі т/га - {{recom.Humus.Need.toFixed(2)}} при перерахуках на біогумус {{recom.Humus.BioNeed.toFixed(2)}}
+                                        </p>
+                                        <p>
+                                            Вартість потрібного вам біогумусу на гектар - {{recom.Humus.PricePerHectare.toFixed(2)}} тис.грн,
+                                            період внесення біогумусу {{recom.Humus.MakingPeriod.toFixed(2)}} років,
+                                            щорічні витрати {{recom.Humus.YearCosts.toFixed(2)}} тис.грн/га.
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </md-dialog-content>
+                </form>
+            </md-dialog>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="dialog1.tmpl.html">
+        <md-dialog>
+            <form ng-cloak>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h4 class="col-md-9 pull-left">{{post.Title}}</h4>
+                        <span flex></span>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <ul class="post-control nav nav-pills col-md-1 pull-right">
+                                <li role="presentation">
+                                    <a class="post-control" ng-href="/admin/posts/edit?postId={{post.Id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                </li>
+                                <li role="presentation">
+                                    <a class="post-control" href="#" ng-click="DeletePost(post.Id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                </li>
+                            </ul>
+
+                        }
+                        <md-button class="md-icon-button" ng-click="cancel()">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+
+                <md-dialog-content>
+                    <div class="md-dialog-content">
+                        <p ng-bind-html="post.Text"></p>
+                    </div>
+                </md-dialog-content>
+            </form>
+        </md-dialog>
+    </script>
+
+    <script>
+
+
+        (function ($) {
+
+            $(window).on("load", function () {
+
+                $(function () {
+
+                    $('#datepicker1').datepicker({
+                        locale: 'uk'
+                    });
+                    $("#AddButton").tooltip({
+                        disabled: true,
+                        content: "Необхідно зберегти або відмінити поточний полігон.",
+                        show: {
+                            effect: "slideDown"
+                        }
+                    });
+                    $("#SavePolyButton").tooltip({
+                        disabled: true,
+                        content: "Продовжіть введення данних або відмініть поточний полігон.",
+                        position: { my: "left-30 top+10", at: "left bottom" },
+                        show: {
+                            effect: "slideDown",
+                        },
+                        open: function (event, ui) {
+                            setTimeout(function () {
+                                $(ui.tooltip).hide("fade");
+                            }, 2500);
+                        },
+                        close: function (event, ui) {
+                            $(event.target).attr("title", "");;
+                        }
+                    });
+                });
+
+                $(".modal-body").mCustomScrollbar({
+                    theme: "minimal-dark"
+                });
+
+                $(".search-filter-analyse ul > li").on("click", function () {
+                    $(this).hide();
+                })
+
+            });
+        })(jQuery);
+    </script>
+
+    @if (User.IsInRole("admin"))
+    {
+        <script type="text/javascript">
+            function LoadFilemanager() {
+                var mngrWnd = window.open("/scripts/libs/filemanager/index.html",
+                    "",
+                    'location=no,toolbar=no,menubar=no,directories=no,status=no,resizable=yes,scrollbars=yes,height=600,width=750, ' +
+                    'false');
+            };
+        </script>
+    }
+
+
+    @section scripts {
+        <script src="~/Scripts/Libs/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="~/Scripts/Pages/index.js" charset="windows-1251"></script>
+        <script src="~/Scripts/Libs/jquery.mCustomScrollbar.js"></script>
+        <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?components=country:Ukraine&key=AIzaSyAgb4Z68gbhiTBDVd0-reiSl-h5DBFknDU&libraries=places&language=uk"></script>
+        <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+        <script type="text/javascript" src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js" charset="utf-8"></script>
+        <script src="~/Scripts/moment-with-locales.js"></script>
+
+        <script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+        <script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+        <script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+        <script src="~/Scripts/Libs/jquery.form.js"></script>
+        <script src="~/Scripts/Libs/jquery.nav.js"></script>
+        <script src="~/Scripts/Libs/jquery.sticky.js"></script>
+        <script src="~/Scripts/Libs/plugins.js"></script>
+        <script src="~/Scripts/Libs/wow.min.js"></script>
+        <script src="~/Scripts/Pages/welcome.js"></script>
+    }
+    @Scripts.Render("~/bundles/leaflet")
+    @Scripts.Render("~/bundles/map")

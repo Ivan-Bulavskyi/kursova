@@ -1,0 +1,133 @@
+﻿<md-tab label="Обґрунтування всіх сценаріїв">
+    <md-content class="md-padding">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <form name="CalcAllComb_Form">
+                        <div class="col-md-6">
+                            <md-slider-container>
+                                <span>Роки</span>
+                                <md-slider ng-model="years" min="1" max="{{yearsMax}}" class="md-accent" ng-change="yearsAllCombinationsChanged()">
+                                </md-slider>
+                                <md-input-container>
+                                    <input type="number" min="1" max="{{yearsMax}}" ng-model="years">
+                                </md-input-container>
+                            </md-slider-container>
+                        </div>
+                        <div class="col-md-6">
+                            <md-slider-container>
+                                <span>Витрати на добрива: {{(allAddedFertilizer * 4200 * params.area * years) | numberCut:'UAH'}}</span>
+                                <md-slider ng-model="allAddedFertilizer" min="0" max="{{maxFertilizerPerHectar * years}}" @*step="{{maxFertilizerPerHectar}}"*@ step="1" class="md-accent">
+                                </md-slider>
+                                <md-input-container>
+                                    <input type="number" ng-model="allAddedFertilizer" min="0" max="{{maxFertilizerPerHectar * years}}">
+                                </md-input-container>
+                            </md-slider-container>
+                        </div>
+                    </form>
+                    @*<div class="col-md-9">
+                            <md-input-container>
+                                <label>Додати культуру</label>
+                                <md-select ng-model="newOptimalProduct">
+                                    <md-option><em>None</em></md-option>
+                                    <md-option ng-repeat="product in products" ng-value="product">
+                                        {{product.name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                        <div class="col-md-3">
+                            <md-button class="md-accent md-raised md-hue-1 pull-right"
+                                       ng-disabled="newOptimalProduct == null"
+                                       ng-click="addNewOptimal()">
+                                Додати
+                            </md-button>
+                        </div>*@
+                </div>
+                <md-content>
+                    <md-list class="md-dense" flex>
+                        <md-subheader class="md-no-sticky">План посіву (рік за роком)</md-subheader>
+                        <md-divider></md-divider>
+
+                        <ul ui-sortable="recomendPopup.SortableOptions" ng-model="optimalPlan" class="optimal-plan-list">
+                            <li ng-repeat="item in optimalPlan.slice(0, years) track by $index">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <md-list-item class="md-3-line">
+                                            <img ng-src="{{item.imgSrc}}" class="md-avatar" alt="{{item.name}}" />
+                                            <div class="md-list-item-text" layout="column">
+                                                <h3>{{ item.name }}</h3>
+                                            </div>
+                                            <div style="margin:auto">
+                                                <div class="svg-triangle" ng-class="{'svg-img-none':$first}"></div>
+                                                <div class="svg-triangle svg-rotate" ng-class="{'svg-img-none':$last}"></div>
+                                            </div>
+                                        </md-list-item>
+                                    </div>
+                                </div>
+                                <md-divider></md-divider>
+                            </li>
+                        </ul>
+                    </md-list>
+                </md-content>
+                <div class="row">
+                    <div class="col-md-6">
+                        @*<md-input-container>
+                                <label>Буде внесено добрив за {{optimalPlan.length}} років</label>
+                                <input ng-model="allAddedFertilizer" />
+                            </md-input-container>*@
+                    </div>
+                    <div class="col-md-6">
+                        <md-button ng-disabled="!CalcAllComb_Form.$valid || optimalPlan.length <= 0"
+                                   class="md-accent md-raised md-hue-1 pull-right"
+                                   ng-click="getBestRecommendations()">Порахувати всі варіанти</md-button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6 chart-title">
+                        Вміст гумусу в грунті, {{params.humusMapLayer.Value}}</b>%
+                    </div>
+                    <div class="col-md-6 chart-title" ng-show="AllCombinationsLoadSuccess">
+                        Можливих варіантів: {{ allCombinations.length }}
+                    </div>
+                </div>
+
+
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div id="myDiv1"></div>
+            </div>
+            <div class="col-md-6">
+                <div id="myDiv2"></div>
+            </div>
+        </div>
+        <div class="row" ng-show="AllCombinationsLoadSuccess">
+            <div class="col-md-12">
+                <div class="alert alert-info margin-top-20">
+                    Найбільший рівень гумусу буде досягнуто для першого плану в списку нижче
+                </div>
+                <md-list flex>
+                    <md-list-item class="md-3-line"
+                                  ng-repeat="combination in allCombinations track by $index">
+                        <div class="md-list-item-text" layout="column">
+                            <h3>План # {{ $index + 1 }}</h3>
+                            <h4>Кінцевий вміст гумусу в грунті [%]- {{ combination[combination.length - 1].ExpectedLevelOfHumus }}, Чистий дохід за {{years}} років - {{combination.TotalIncome}} грн.</h4>
+                            <p>
+                                <span ng-repeat="item in combination">
+                                    {{item.AddedFertilizer.toFixed(2)}} т/Га <span ng-show="!$last"> -> </span>
+                                </span>
+                            </p>
+                            <span class="remove-combination" ng-click="removeFromCombinations($index)">X</span>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-list>
+            </div>
+        </div>
+    </md-content>
+</md-tab>

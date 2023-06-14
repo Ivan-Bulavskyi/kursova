@@ -1,0 +1,50 @@
+@import "../site/modules/_global_variables";
+@import "index/partials/_site-header";
+@import "index/partials/_input-place";
+@import "index/partials/_search-category";
+@import "index/partials/_indicators-list";
+@import "index/partials/_site-footer";
+@import "index/partials/_areas-list-block";
+@import "index/partials/_legend-tooltip";
+@import "index/partials/_about-site";
+@import "index/partials/_bigger_description";
+
+
+
+.search-container {
+    height: 100%;
+    width: 410px;
+    overflow: hidden;
+    border-right: 1px solid lightgray;
+    position: absolute;
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+  margin-left:410px;
+  //background: url(../../img/map.png) no-repeat;
+  background-size: 100% 100%;
+}
+
+.work-place {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  height: 650px;
+}
+
+.loader{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  display: none;
+  background-color: white;
+  img{
+    top: 35%;
+    margin: 0 auto;
+    display: block;
+    position: relative;
+  }
+}

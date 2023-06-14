@@ -1,0 +1,647 @@
+﻿@section styles {
+<link rel="stylesheet" href='@Url.Content("~/Content/Pages/index.css")'>
+<link rel="stylesheet" href='@Url.Content("~/Content/Pages/site.css")'>
+<link rel="stylesheet" href='@Url.Content("~/Content/Pages/advices.css")'>
+<link rel="stylesheet" href="~/Content/Libs/animate.css">
+<link href="~/Content/Libs/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+<link rel="stylesheet" href="~/Content/Libs/font-awesome/css/font-awesome.css" />
+<link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+@Html.Partial("_Navbar")
+<div class="row" ng-controller="MapController" data-ng-init="init()" style="height: 88%">
+    <section class="work-place">
+        <aside class="search-container">
+            <div class="image-conteiner">
+                <div class="image-container-item">
+                    <img src="https://chytomo.com/wp-content/uploads/2022/07/maxresdefault.jpg" alt="">
+                </div>
+                <div class="image-container-description">
+                    <p class="image-container-description-title">
+                        Рідків, рівненська область
+                    </p>
+                    <p class="image-container-description-slogan">
+                        Рі́дків — село в Україні, в Радивилівському районі Рівненської 
+                        області. Населення становить 539 осіб.
+                    </p>
+                </div>
+            </div>
+            <div class="search-category">
+                <ul>
+                    <li>
+                        <a ng-class="{'active':sideBarTabs.activeName == 'suitability'}" class="suitability" ng-click="sideBarTabChanged('suitability')">
+                            <div><i class="fa fa-line-chart fa-2x"></i><span>Аналітика</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="{'active':sideBarTabs.activeName == 'culc'}" ng-click="sideBarTabChanged('culc')">
+                            <div><i class="fa fa-calculator fa-2x"></i><span>Калькулятори</span></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-class="" ng-click="">
+                            <div><i class="fa fa-calculator fa-2x"></i><span>Економічна ефективність</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="input-place">
+                <div class="form-group">
+                    <input type="search" id="usr" class="form-control">
+                    <input type="button" disabled>
+                </div>
+            </div>
+            <div class="indicators-list">
+                <ul ng-controller="PostsController">
+                    <div ng-show="sideBarTabs.activeName == 'suitability'" id="suitability" class="modal-body" style="height: 100%;">
+                        <li>
+                            <span class="map-title">
+                               <i aria-hidden="true" class="fa fa-angle-right"></i>
+                               <span>Аналіз показників</span> 
+                            </span>
+                            
+                            <div id="analyse" class="content">
+                                <table class="table analyse">
+                                    <thead>
+                                        <tr>
+                                            <td>Показник</td>
+                                            <td>Значення</td>
+                                            @*<td>Од. виміру</td>*@
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mLayer in mapLayers">
+                                            <td>{{mLayer.Name}}</td>
+                                            <td>{{mLayer.Value}}</td>
+                                            @*<td>{{mLayer.Measure}}</td>*@
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;" ng-style="{'width': mLayer.Width,'background-color': mLayer.Color}">
+                                                        <span class="sr-only">{{mLayer.Width}}% Complete</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="conclusion" ng-controller="AdvicesController">
+                                    <div class="detail-description-btns">
+                                        <button id="detail-description-btn"><i aria-hidden="true" class="fa fa-clipboard">Детальний звіт</i></button>
+                                        <button id="recomendation-btn"><i ng-click="recommendations($event)" aria-hidden="true" class="fa fa-clipboard">Рекомендації</i></button>
+                                        @*<button id="description-btn"><i aria-hidden="true" ng-click="showAdvices()" class="fa fa-clipboard">Детальніший опис</i></button>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+
+                            <span class="map-title"><i aria-hidden="true" class="fa fa-angle-right"></i><span>Фільтр по показниках</span></span>
+                            <div id="filter" class="content">
+                                <ul>
+                                    <li class="agro-list-item">
+                                        Картографічні матеріали
+                                        <ul>
+                                            <li>
+                                                <label>
+                                                    <label class="in-check active">
+                                                        <i class="fa fa-check"></i>
+                                                        <input type="checkbox" ng-model="kadastrDisplay" ng-change="changeKadastrDisplay(kadastrDisplay)" checked>
+                                                    </label>
+                                                    Показати дані з кадастрової карти
+                                                </label>
+                                            </li>
+                                            <!-- Add correction layer -->
+                                            <li>
+                                                <label>
+                                                    <label class="in-check active">
+                                                        <i class="fa fa-check"></i>
+                                                        <input type="checkbox" ng-model="kadastrDisplay" ng-change="changeKadastrDisplay(kadastrDisplay)" checked>
+                                                    </label>
+                                                    Показати дані мікроелементів
+                                                </label>
+                                            </li>
+                                            <!-- EOF correction layer-->
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio active">
+                                                        <input type="radio" ng-model="mapTile" ng-change="changeMapTile(indicator.value,mapTile)" name="mapTile" value="openStreetMap" checked>
+                                                    </label>
+                                                    
+                                                    OpenStreetMap
+                                                </label>
+                                            </li>
+                                            <!-- Ads qgis layers -->
+                                            <!--<li>
+                                            <label>
+                                                <input type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="qgisSoil" checked>
+                                                Грунти
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="qgisPH" checked>
+                                                PH
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="qgisHumus" checked>
+                                                Гумус
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="qgisFiltration" checked>
+                                                Фільтрація
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" ng-model="mapTile" ng-change="changeMapTile(mapTile)" name="mapTile" value="qgisFertility" checked>
+                                                Родючість
+                                            </label>
+                                        </li>-->
+                                            <!-- eof qgis layers-->
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="mapTile" ng-change="changeMapTile(indicator.value,mapTile)" name="mapTile" value="roadMutant">
+                                                    </label>
+                                                    Google RoadMap
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="mapTile" ng-change="changeMapTile(indicator.value,mapTile)" name="mapTile" value="satMutant">
+                                                    </label>
+                                                    
+                                                    Google AerialMap
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="mapTile" ng-change="changeMapTile(indicator.value,mapTile)" name="mapTile" value="terrainMutant">
+                                                    </label>
+                                                    Google TerrainMap
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="mapTile" ng-change="changeMapTile(indicator.value,mapTile)" name="mapTile" value="hybridMutant">
+                                                    </label>
+                                                    Google HybridMap
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="main-agro-indicators agro-list-item">
+                                        Основні агрохімічні показники
+                                        @*<ul ng-repeat="mLayer in mapLayers" ng-show="$index < mapLayers.length-2">
+                                            <li>
+                                                <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" value="{{mLayer.Name}}">{{mLayer.Name}}
+                                            </li>
+                                        </ul>*@
+                                        <ul>
+                                            <!-- Ads qgis layers -->
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisSoil">
+                                                    </label>
+                                                    
+                                                    Грунти
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                       <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisHumus"> 
+                                                    </label>
+                                                    
+                                                    Вміст гумусу у %
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                       <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisPH"> 
+                                                    </label>
+                                                    
+                                                    Кислотність грунту (pH сольовий)
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisMechanical">
+                                                    </label>
+                                                    
+                                                    Механічний склад грунтів
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisFiltration">
+                                                    </label>
+                                                    
+                                                    Фільтрація
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisGleying">
+                                                    </label>
+                                                    
+                                                    Глейовість
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                       <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisSaltLicks"> 
+                                                    </label>
+                                                    
+                                                    Солонці
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                        <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisSwampy">
+                                                    </label>
+                                                    
+                                                    Мочаристі
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                       <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisSalinity"> 
+                                                    </label>
+                                                    
+                                                    Засоленість
+                                                </label>
+                                            </li>
+                                            <li>
+                                                <label>
+                                                    <label class="in-radio">
+                                                       <input type="radio" ng-model="indicator.value" ng-change="changeMapTile(indicator.value,mapTile)" name="mainAgroChemicalIndicators" value="qgisFertility"> 
+                                                    </label>
+                                                    
+                                                    Родючість
+                                                </label>
+                                            </li>
+                                            <!-- eof qgis layers-->
+                                            <!-- comment microelements -->
+                                            <!--
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" value="pH грунту">pH грунту
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" value="Органічна речовина">Органічна речовина
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="n-filter" value="Азот (N)">Азот (N)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="p-filter" value="Фосфор (P)">Фосфор (P)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="k-filter" value="Калій (К)">Калій (К)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="s-filter" value="Сірка (S)">Сірка (S)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="zn-filter" value="Цинк (Zn)">Цинк (Zn)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="mn-filter" value="Марганець (Mn)">Марганець (Mn)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="cu-filter" value="Мідь (Cu)">Мідь (Cu)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="b-filter" value="Бор (B)">Бор (B)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="co-filter" value="Кобальт (Co)">Кобальт (Co)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="cs-filter" value="Цезій (Cs)">Цезій (Cs)
+        </label>
+    </li>
+    <li>
+        <label>
+            <input type="radio" ng-model="indicator.value" ng-change="colorPolygons(indicator.value)" name="mainAgroChemicalIndicators" class="sr-filter" value="Стронцій (Sr)">Стронцій (Sr)
+        </label>
+    </li> -->
+                                            <!-- end of comment -->
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        @if (User.IsInRole("admin"))
+                        {
+                        <li>
+                            <i aria-hidden="true" class="fa fa-angle-right"> </i><span>Ділянки</span>
+                            <div id="fields" class="content areas-list-block">
+                                <div class="places-list">
+                                    <button type="button" id="AddButton" ng-class="{'disabled': addButtonDisabled}" ng-click="AddButtonClicked()" title="" class="btn btn-default">Додати</button>
+                                    <button type="button" id="SavePolyButton" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="saveButtonClicked()" title="" class="btn btn-default" style="margin-left: 5px">Внести показники</button>
+                                    <button type="button" class="btn btn-default" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="cancelButtonClicked()" style="margin-left: 5px">Відмінити</button>
+                                    <ul class="list-group">
+                                        <li class="list-group-item" ng-mouseover="AreaItemHovered(poly)" ng-repeat="poly in currentPolygons">
+                                            <a class="remove" ng-click="AreaItemDelete(poly)" style="cursor: pointer;"><i class="fa fa-times"></i></a><a class="edit" ng-click="AreaItemEdit(poly)" style="cursor: pointer;"><i class="fa fa-pencil"></i></a>
+                                            <div class="area-info">
+                                                <i class="fa fa-map-marker fa-2x"></i>
+                                                <ul>
+                                                    <li>Zone {{poly.feature.id}}</li>
+                                                    <li><i class="fa fa-user"> </i><strong>{{poly.feature.creator}}</strong><i class="fa fa-calendar"> </i><strong>{{poly.feature.date | date:'dd/MM/yyyy'}}</strong></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i aria-hidden="true" class="fa fa-angle-right"></i><span>Введення показників</span>
+                            <div id="input" class="content">
+                                <table class="table analyse">
+                                    <thead>
+                                        <tr>
+                                            <td>Показник</td>
+                                            <td>Значення</td>
+                                            <td>Од. виміру</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mLayer in mapLayers">
+                                            <td>{{mLayer.Name}}</td>
+                                            <td><input type="number" ng-model="mapLayers[$index].Value"></td>
+                                            <td>{{mLayer.Measure}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <md-content layout-padding="">
+                                    <ng-form name="dateForm">
+                                        <md-datepicker ng-model="polygonCreateDate.value" md-placeholder="Введіть дату" md-open-on-focus=""></md-datepicker>
+                                    </ng-form>
+                                    <button type="button" ng-click="CommitValuesNew()" class="btn btn-default" ng-class="{'disabled': !dateForm.$valid}" style="margin-left: 10px">Зберегти </button>
+                                    <button type="button" class="btn btn-default" ng-class="{'disabled': saveAndCancelButtonsDisabled}" ng-click="cancelButtonClicked()" style="margin-left: 10px">Відмінити</button>
+                                </md-content>
+                            </div>
+                        </li>
+                        }
+                        <li>
+                        </li>
+                    </div>
+                    <div ng-controller="CalculatorsController" data-ng-init="init()">
+                        <div ng-show="sideBarTabs.activeName == 'culc'" class="modal-body" style="height: 100%;">
+                            <md-button ng-click="recommendations($event, 'myPlan')" class="md-raised calc-btn" ng-disabled="!checkRegion()">Калькулятор балансу гумусу та NPK</md-button>
+                            <md-button ng-click="recommendations($event, 'culcAllComb')" class="md-raised calc-btn" ng-disabled="!checkRegion()">Калькулятор всіх сценаріїв</md-button>
+                            <md-button ng-click="recommendations($event, 'fertilizersNeeds')" class="md-raised calc-btn" ng-disabled="!checkRegion()">Потреба в добривах (біогумус)</md-button>
+                            <div class="alert alert-info" ng-show="!checkRegion()">
+                                <strong>Увага!</strong><br>
+                                Даний функціонал доступний для ознайомлення на території Рівненської області.
+                                Для додаткової інформації залишіть свій запит
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            @*<footer class="site-footer">
+                nav class="site-nav">
+                <ul>
+                    <div ng-controller="FooterController">
+                        <li><a href="#" ng-click="about($event)" id="techOpener">Про сервіс</a></li>
+                        <li><a href="#">Сертифікація</a></li>
+                        <li><a href="#" ng-click="contacts($event)">Контакти</a></li>
+                    </div>
+                </ul>
+                </nav <footer>
+                <div><strong><img src="@Url.Content(" ~/Images/egap-logo.png")" style="height:15px;width:15px;margin-right: 2px;">Початкова підтримка надана в рамках конкурсу "Egap Challenge"</strong></div><i aria-hidden="true" class="fa fa-copyright">2016 OrganicPortal - геоінформаційний портал органічного землеробства</i>
+            </footer>
+            </footer>*@
+        </aside>
+        <aside class="map-container">
+            <div class="legend-tooltip md-transition-in mCustomScrollbar _mCS_11 mCS-autoHide">
+                <button id="close-tooltip-btn"><i class="fa fa-close"></i></button>
+                <div id="legend" class="modal-body" style="height: 100%; padding: 0px;">
+                    @*<table class="table"></table>*@
+                    @*<span>Легенда</span>*@
+                    <table ng-repeat="mLayer in mapLayers" style="margin: 7px;" ng-show="checkLegend(mLayer.qgis)">
+                        <tr ng-repeat="mLegend in mLayer.Legend">
+                            <td>
+                                <div ng-style="{'background-color': mLegend.Color}" class="indicator"></div>
+                            </td>
+                            <td><i>{{mLegend.Name}}</i></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="map">
+            </div>
+            <div id="tooltip"></div>
+            <div id="dialog-confirm" title="Видалення полігону" style="display: none">
+                <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 12px 12px 20px 0;"></span>Ви впевнені що хочете видалити цей полігон?</p>
+            </div>
+            @*<div class="legend-tooltip">
+                <button id="close-tooltip-btn"><i class="fa fa-close"></i></button>
+                <div class="modal-body" style="height: 200px;">
+                    <table class="table"></table>
+                </div>
+            </div>*@
+        </aside>
+    </section>
+</div>
+@Html.Partial("_Advices")
+<script src="~/Scripts/Pages/services/UserService.js"></script>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>
+<script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>
+<script src="~/Scripts/Pages/controllers/CertificationController.js"></script>
+<script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+<script src="~/Scripts/Pages/controllers/FooterController.js"></script>
+<script src="~/Scripts/Pages/controllers/AdvicesController.js"></script>
+<script type="text/ng-template" id="recommendation.tmpl.html">
+    <div class="recommendation-container" style="z-index: 99999;">
+        <md-dialog id="recommendation">
+            <div ng-cloak>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <h4>Рекомендації з планування сівозміни для досягнення позитивного балансу гумусу і основних поживних речовин в грунті</h4>
+                        <span flex></span>
+                        @*<div class="header-info">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>  Площа ділянки - <b>{{params.area}}</b> Га
+                        </div>
+                        <div class="header-info">
+                            Вміст гумусу в грунті - <b>{{params.humusMapLayer.Value}}</b> %
+                        </div>*@
+                        <md-button class="md-icon-button" ng-click="cancel()">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-dialog-content>
+                    <div class="md-dialog-content">
+                        <div ng-cloak>
+                            <md-content>
+                                <md-tabs md-selected="tabSelected" md-dynamic-height md-border-bottom>
+                                    @Html.Partial("_IndividualPlan")
+                                    @Html.Partial("_AllScenarios")
+                                    @Html.Partial("_FertilizersNeeds")
+                                </md-tabs>
+                            </md-content>
+                        </div>
+                    </div>
+                </md-dialog-content>
+            </div>
+        </md-dialog>
+    </div>
+</script>
+<script type="text/ng-template" id="dialog1.tmpl.html">
+    <md-dialog>
+        <form ng-cloak>
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <h4 class="col-md-9 pull-left">{{post.Title}}</h4>
+                    <span flex></span>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <ul class="post-control nav nav-pills col-md-1 pull-right">
+                            <li role="presentation">
+                                <a class="post-control" ng-href="/admin/posts/edit?postId={{post.Id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            </li>
+                            <li role="presentation">
+                                <a class="post-control" href="#" ng-click="DeletePost(post.Id)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+
+                    }
+                    <md-button class="md-icon-button" ng-click="cancel()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+
+            <md-dialog-content>
+                <div class="md-dialog-content">
+                    <p ng-bind-html="post.Text"></p>
+                </div>
+            </md-dialog-content>
+        </form>
+    </md-dialog>
+</script>
+<script>
+(function($) {
+
+    $(window).on("load", function() {
+
+        $(function() {
+
+            $('#datepicker1').datepicker({
+                locale: 'uk'
+            });
+            $("#AddButton").tooltip({
+                disabled: true,
+                content: "Необхідно зберегти або відмінити поточний полігон.",
+                show: {
+                    effect: "slideDown"
+                }
+            });
+            $("#SavePolyButton").tooltip({
+                disabled: true,
+                content: "Продовжіть введення данних або відмініть поточний полігон.",
+                position: { my: "left-30 top+10", at: "left bottom" },
+                show: {
+                    effect: "slideDown",
+                },
+                open: function(event, ui) {
+                    setTimeout(function() {
+                        $(ui.tooltip).hide("fade");
+                    }, 2500);
+                },
+                close: function(event, ui) {
+                    $(event.target).attr("title", "");;
+                }
+            });
+        });
+
+        $(".modal-body").mCustomScrollbar({
+            theme: "minimal-dark"
+        });
+
+        $(".search-filter-analyse ul > li").on("click", function() {
+            $(this).hide();
+        })
+
+    });
+})(jQuery);
+</script>
+@if (User.IsInRole("admin"))
+{
+<script type="text/javascript">
+function LoadFilemanager() {
+    var mngrWnd = window.open("/scripts/libs/filemanager/index.html",
+        "",
+        'location=no,toolbar=no,menubar=no,directories=no,status=no,resizable=yes,scrollbars=yes,height=600,width=750, ' +
+        'false');
+};
+</script>
+}
+@section scripts {
+<script src="~/Scripts/assets/leaflet.draw.js"></script>
+<script src="~/Scripts/assets/Chart.min.js"></script>
+<script src="~/Scripts/Libs/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="~/Scripts/Libs/jquery.mCustomScrollbar.js"></script>
+<script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?components=country:Ukraine&key=AIzaSyAgb4Z68gbhiTBDVd0-reiSl-h5DBFknDU&libraries=places&language=uk"></script>
+<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+<script type="text/javascript" src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js" charset="utf-8"></script>
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+<script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+<script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+<script src="~/Scripts/Libs/jquery.form.js"></script>
+<script src="~/Scripts/Libs/jquery.nav.js"></script>
+<script src="~/Scripts/Libs/jquery.sticky.js"></script>
+<script src="~/Scripts/Libs/plugins.js"></script>
+<script src="~/Scripts/Libs/wow.min.js"></script>
+<script src="~/Scripts/Pages/welcome.js"></script>
+}
+@Scripts.Render("~/bundles/leaflet")
+@Scripts.Render("~/bundles/map")

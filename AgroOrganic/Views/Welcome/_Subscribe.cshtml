@@ -1,0 +1,22 @@
+﻿@model AgroOrganic.Models.Subscribe
+
+<section id="call-to-action" class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 wow text-center">
+                <div class="block">
+                    <h2>Хочете бути першими хто дізнається про відкриття порталу? </h2>
+                    <p></p>
+                    <div class="form-group">
+                        @using (Html.BeginForm("Subscribe", "Welcome", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.TextBoxFor(m => m.Email, new { type = "text", @class = "form-control", placeholder = "Введіть вашу електронну адресу" })
+                            <button class="btn btn-default btn-submit" type="submit">Підписатися на оновлення</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

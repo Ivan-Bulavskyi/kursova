@@ -1,0 +1,138 @@
+﻿<div class="row">
+    <div class="site-header">
+        <a href="/">
+            <img src="~/Images/organic_logo_png.png">
+        </a>
+        <nav class="navmain">
+            <ul>
+                <li> <a class="map" href="/Home/Map">Карта</a></li>
+                <li> <a class="technology" href="/Home/Technology">Технологія</a></li>
+                <li> <a class="certification" href="/Home/Certification">Сертифікація</a></li>
+                <li> <a class="processing" id="page" href="/Home/Processing">Переробка</a></li>
+                <li> <a class="contacts" href="/Home/Contact"> Контакти </a></li>
+                <li> <a class="team" href="/Home/Team"> Команда </a></li>
+                <li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button id="manageButton"
+                                    class="btn btn-primary dropdown-toggle"
+                                    aria-haspopup="true"
+                                    role="button"
+                                    data-toggle="dropdown">
+                                Привіт @User.Identity.Name
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Manage"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Налаштування профілю</a></li>
+                                @if (User.IsInRole("admin"))
+                                {
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Адміністрування</li>
+                                    <li><a href="/Admin/Posts"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Менеджер постів</a></li>
+                                    <li><a href="#" onclick="LoadFilemanager()"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;Керування файлами</a></li>
+                                    <li><a href="/MapLayers"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Налаштування шарів</a></li>
+                                }
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="javascript:document.getElementById('logoutForm').submit()">
+                                        <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Вийти
+                                    </a>
+                                </li>
+                            </ul>
+
+                        }
+                    }
+                    else
+                    {
+                        <button id="lgnButton" type="button" data-toggle="modal" data-target="#lgnModal">Вхід</button>
+                        <div id="lgnModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        @Html.Partial("/Views/Account/Login.cshtml")
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </li>
+            </ul>
+        </nav>
+        <div class="side-menu-btn-container"> 
+            <button id="open-menu-btn">
+                <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+            </button>        
+         </div>
+        <div id="trapezoid"></div>
+    </div>
+</div>
+<div class="side-main-menu">
+    <ul>
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <button id="manageButton"
+                            class="btn btn-primary dropdown-toggle"
+                            aria-haspopup="true"
+                            role="button"
+                            data-toggle="dropdown">
+                        Привіт @User.Identity.Name
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Manage"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Налаштування профілю</a></li>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li class="divider"></li>
+                            <li class="dropdown-header">Адміністрування</li>
+                            <li><a href="/Admin/Posts"><i class="fa fa-list-alt" aria-hidden="true"></i>&nbsp;Менеджер постів</a></li>
+                            <li><a href="#" onclick="LoadFilemanager()"><i class="fa fa-file" aria-hidden="true"></i>&nbsp;Керування файлами</a></li>
+                            <li><a href="/MapLayers"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;Налаштування шарів</a></li>
+                        }
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                <i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;Вийти
+                            </a>
+                        </li>
+                    </ul>
+
+                }
+            }
+            else
+            {
+                <button id="lgnButton" type="button" data-toggle="modal" data-target="#lgnModal">Вхід</button>
+                <button id="close-menu-btn"><i class="fa fa-close"></i></button>
+                <div id="lgnModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                @Html.Partial("/Views/Account/Login.cshtml")
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Закрити</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </li>
+        <li> <a class="map" href="/Home/Map">Карта</a></li>
+        <li> <a class="technology" href="/Home/Technology">Технологія</a></li>
+        <li> <a class="certification" href="/Home/Certification">Сертифікація</a></li>
+        <li> <a class="processing" id="page" href="/Home/Processing">Переробка</a></li>
+        <li> <a class="contacts" href="/Home/Contact"> Контакти </a></li>
+        <li> <a class="team" href="/Home/Team"> Команда </a></li>
+    </ul>
+</div>

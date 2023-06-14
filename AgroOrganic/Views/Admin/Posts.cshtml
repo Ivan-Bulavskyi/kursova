@@ -1,0 +1,51 @@
+﻿
+@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+    <div>
+        @Html.ActionLink("Створити новий пост", "Posts", "Admin", new { id = "create" } ,new { @class = "btn btn-default btn-lg" })
+        
+    </div>
+    <div ng-controller="PostsController" data-ng-init="LoadPosts()">
+        <h2>Всі пости</h2>
+        <div class="input-group col-md-4 pull-right">
+            <span class="input-group-addon" id="search-addon2"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" ng-model="searchTitle" placeholder="Назва поста" aria-describedby="search-addon2">
+        </div>
+        <table class="table table-hover">
+            <colgroup>
+                <col class="col-md-2">
+                <col class="col-md-8">
+                <col class="col-md-4">
+            </colgroup>
+            <thead>
+            <tr>
+                <td><select ng-model="selectedCategory" class="form-control">
+                    <option value="">--Всі категорії--</option>
+                    <option value="1">Технології</option>
+                    <option value="2">Сертифікація</option>
+                    <option value="3">Переробка</option>
+                </select></td>
+                <td><a href="#" ng-click="orderByField='RoledId'; reverseSort = !reverseSort">Назва</a></td>
+                <td>Налаштування</td>
+            </tr>
+            </thead>
+            <tr ng-repeat="post in posts  | filter:{Category: selectedCategory, Title: searchTitle} |orderBy:orderByField:reverseSort">
+                <td> {{categories[post.Category-1].name}} </td>
+                <td>{{post.Title}} </td>
+                <td>
+                    <div ng-click="MoveUp(post)" class="btn btn-default"><i class="fa fa-arrow-up" aria-hidden="true"></i>
+                    </div>
+                    <div ng-click="MoveDown(post)" class="btn btn-default"><i class="fa fa-arrow-down" aria-hidden="true"></i>
+                    </div>
+                    <a class="btn btn-warning" ng-href="/admin/posts/edit?postId={{post.Id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <div class="btn btn-danger" ng-click="DeletePost(post.Id)"><i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>

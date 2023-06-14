@@ -1,0 +1,55 @@
+@import "modules/_functions";
+@import "modules/_global_variables";
+
+
+html, body {
+    height: 100%;
+}
+
+html { font-size: 62.5%; } 
+
+body {
+    font-size: $defaultFontSize;
+    padding: 0;
+    margin: 0;
+    background-color: #F8F8F8;
+}
+
+button{
+    border: 0;
+    outline: none;
+}
+
+a{
+    color:black;
+}
+
+a:hover, a:visited{
+    text-decoration: none;
+    color:black;
+}
+
+ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-content{
+    margin: 6rem 0 0 0;
+    overflow: hidden;
+    width: 100%;
+    //padding: 0 10px;
+}
+
+.modal-body{
+    height:100%;
+}
+
+#trapezoid {
+    border-bottom: 100px solid white;
+    border-left: 0px solid transparent;
+    border-right: 50px solid transparent;
+    height: 101px;
+    width: 200px;
+}

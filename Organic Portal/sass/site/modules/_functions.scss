@@ -1,0 +1,28 @@
+@function clear-units($value){
+    @if type-of($value) == "number" {
+        @if (unitless($value)) {
+            @return $value;
+        } @else if unit($value) == "em"{
+            @return $value / 1em;
+        } @else if unit($value) == "rem"{
+            @return $value / 1rem;
+        } @else if unit($value) == "px" {
+            @return $value / 1px;
+        } @else if unit($value) == "pt" {
+            @return $value / 1pt;
+        }
+    } @else {
+        @warn "Not a number value: #{$value}";
+        @return $value;
+    }
+}
+
+@function remtopx($target){
+	@if (unit($target) == "rem"){
+    	@return ($target/1rem)*10px;
+    } @else {
+    	@warn "Not a number value: #{$target}";
+    	@return $target;
+    }
+}
+

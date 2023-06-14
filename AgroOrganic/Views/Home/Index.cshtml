@@ -1,0 +1,137 @@
+﻿@section styles {
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/index.css")'>
+    <link rel="stylesheet" href='@Url.Content("~/Content/Pages/site.css")'>
+    <link href="~/Content/Pages/welcome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/Libs/animate.css">
+    <link href="~/Content/Libs/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="~/Content/Libs/owl.carousel.css">
+
+    <!--?-->
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+}
+@Html.Partial("_Navbar")
+<div class="row">
+    <section id="about" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 wow fadeInLeft">
+                    <div class="sub-heading">
+                        <h3>Метa проекту </h3>
+                    </div>
+                    <div class="col-md-7 col-sm-12 block">
+                        <p>Забезпечення управління аграрним виробництвом на основі геоінформаційно-аналітичних систем, впроваджені перспективних технологій агропромислового комплексу, врахуванні об’єктивних факторів розвитку ринкової економіки та нарощування експортного потенціалу держави</p>
+                        <p> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="service" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="heading wow fadeInUp">
+                    <h3>Можливості</h3>
+                </div>
+                <div class="col-sm-6 col-md-3 wow fadeInLeft">
+                    <div class="service">
+                        <div class="icon-box">
+                            <span class="icon">
+                                <i class="ion-android-desktop"></i>
+                            </span>
+                        </div>
+                        <div class="caption">
+                            <h3>Придатність до органіки</h3>
+                            <p>Наша система аналізує агрохімічні показники земельної ділянки і вказує наскільки придатна вона до органічного землевиробництва</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 wow fadeInLeft" data-wow-delay="0.3s">
+                    <div class="service">
+                        <div class="icon-box">
+                            <span class="icon">
+                                <i class="ion-speedometer"></i>
+                            </span>
+                        </div>
+                        <div class="caption">
+                            <h3>Економічна ефективність</h3>
+                            <p>Врахувавши ряд факторів, ми можемо підказати скільки коштів вам потрібно витратити для переходу до органічного землеробства</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 wow fadeInLeft" data-wow-delay="0.6s">
+                    <div class="service">
+                        <div class="icon-box">
+                            <span class="icon">
+                                <i class="ion-ios-infinite-outline"></i>
+                            </span>
+                        </div>
+                        <div class="caption">
+                            <h3>Правила сертифікації</h3>
+                            <p>Ми зібрали всю необхідну документацію для проходження сертифікації. Отримання сертифікату відкриває двері до нового ринку збуту</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3 wow fadeInLeft" data-wow-delay="0.9s">
+                    <div class="service">
+                        <div class="icon-box">
+                            <span class="icon">
+                                <i class="ion-ios-cloud-outline"></i>
+                            </span>
+                        </div>
+                        <div class="caption">
+                            <h3>Переробка та збут</h3>
+                            <p>Експерти нададуть інформацію про рекомендовані с/г культури, перехідний період, технології вирощування, заготівлі та переробки.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@Html.Partial("_AboutSite")
+
+<script src="~/Scripts/Pages/services/UserService.js"></script>
+<script src="~/Scripts/Pages/services/PostsService.js"></script>
+<script src="~/Scripts/Pages/controllers/PostsController.js"></script>
+<script src="~/Scripts/Pages/controllers/TechnologyController.js"></script>
+<script src="~/Scripts/Pages/controllers/CertificationController.js"></script>
+<script src="~/Scripts/Pages/controllers/ProductController.js"></script>
+<script src="~/Scripts/Pages/controllers/FooterController.js"></script>
+<script src="~/Scripts/Pages/controllers/AdvicesController.js"></script>
+
+@if (User.IsInRole("admin"))
+{
+    <script type="text/javascript">
+        function LoadFilemanager() {
+            var mngrWnd = window.open("/scripts/libs/filemanager/index.html",
+                "",
+                'location=no,toolbar=no,menubar=no,directories=no,status=no,resizable=yes,scrollbars=yes,height=600,width=750, ' +
+                'false');
+        };
+    </script>
+}
+
+
+@section scripts {
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Scripts/Pages/index.js" charset="windows-1251"></script>
+    <script src="~/Scripts/Libs/jquery.mCustomScrollbar.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?components=country:Ukraine&key=AIzaSyAgb4Z68gbhiTBDVd0-reiSl-h5DBFknDU&libraries=places&language=uk"></script>
+    <script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js" charset="utf-8"></script>
+    <script src="~/Scripts/moment-with-locales.js"></script>
+
+    <script src="~/Scripts/Libs/jquery.lwtCountdown-1.0.js"></script>
+    <script src="~/Scripts/Libs/owl.carousel.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.validate.min.js"></script>
+    <script src="~/Scripts/Libs/jquery.form.js"></script>
+    <script src="~/Scripts/Libs/jquery.nav.js"></script>
+    <script src="~/Scripts/Libs/jquery.sticky.js"></script>
+    <script src="~/Scripts/Libs/plugins.js"></script>
+    <script src="~/Scripts/Libs/wow.min.js"></script>
+    <script src="~/Scripts/Pages/welcome.js"></script>
+}

@@ -1,0 +1,62 @@
+/* line 5, ../../sass/site/site.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 9, ../../sass/site/site.scss */
+html {
+  font-size: 62.5%;
+}
+
+/* line 11, ../../sass/site/site.scss */
+body {
+  font-size: 1.4rem;
+  padding: 0;
+  margin: 0;
+  background-color: #F8F8F8;
+}
+
+/* line 18, ../../sass/site/site.scss */
+button {
+  border: 0;
+  outline: none;
+}
+
+/* line 23, ../../sass/site/site.scss */
+a {
+  color: black;
+}
+
+/* line 27, ../../sass/site/site.scss */
+a:hover, a:visited {
+  text-decoration: none;
+  color: black;
+}
+
+/* line 32, ../../sass/site/site.scss */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 38, ../../sass/site/site.scss */
+.site-content {
+  margin: 6rem 0 0 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* line 45, ../../sass/site/site.scss */
+.modal-body {
+  height: 100%;
+}
+
+/* line 49, ../../sass/site/site.scss */
+#trapezoid {
+  border-bottom: 100px solid white;
+  border-left: 0px solid transparent;
+  border-right: 50px solid transparent;
+  height: 101px;
+  width: 200px;
+}

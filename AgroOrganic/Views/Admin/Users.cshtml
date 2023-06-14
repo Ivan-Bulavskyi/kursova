@@ -1,0 +1,46 @@
+﻿
+@Html.Partial("_NavbarAdmin")
+
+<div class="container">
+    <h2>Users</h2>
+    <table class="table">
+        <tr>
+            <td>
+                <b>Email</b>
+            </td>
+            <td>
+               <b> Username</b>
+            </td>
+            <td>
+                <b> Roles </b>
+            </td>
+        </tr>
+        @foreach(var user in ViewBag.Users)
+        {
+            <tr>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @user.UserName
+                </td>
+                <td>
+                   @foreach (var userRole in user.Roles)
+                   {
+                       foreach (var role in ViewBag.Roles)
+                       {
+                           if (role.Id == userRole.RoleId)
+                           {
+                            <div>
+                                @role.Name
+                            </div>
+                           }
+                       }
+                   }
+                 
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

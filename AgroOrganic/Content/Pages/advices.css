@@ -1,0 +1,151 @@
+﻿#description-btn {
+    margin-left: 10px;
+}
+
+/* line 1, ../../sass/Pages/index/partials/_bigger_description.scss */
+.description {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  padding: 10px;
+  z-index: 1001;
+  display: none;
+}
+
+    .description .modal-body {
+        height: 100%;
+    }
+
+/* line 12, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title {
+  overflow: hidden;
+}
+/* line 13, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title .feature-title-block {
+  width: 10%;
+  float: left;
+}
+/* line 17, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title .recomendation-info-block {
+  width: 90%;
+  border-radius: 3px;
+  background-color: #52944C !important;
+  float: left;
+  color: white;
+}
+/* line 23, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title .recomendation-info-block .recomendation-info-date {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+/* line 27, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title .recomendation-info-block .recomendation-info-rate {
+  padding: 15px;
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+/* line 31, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title .recomendation-info-block .recomendation-info-rate span {
+  margin-left: 10px;
+  color: yellow;
+  font-weight: bolder;
+}
+/* line 38, ../../sass/Pages/index/partials/_bigger_description.scss */
+.feature-title img {
+  height: 75px;
+  width: 75px;
+}
+
+/* line 45, ../../sass/Pages/index/partials/_bigger_description.scss */
+.field-passport {
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+/* line 50, ../../sass/Pages/index/partials/_bigger_description.scss */
+.passport-label {
+  color: gray;
+  font-weight: bold;
+}
+
+/* line 55, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow {
+  overflow: hidden;
+}
+/* line 58, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-title {
+  font-size: 1.6rem;
+}
+/* line 60, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-title .should-grow-title {
+  color: lightgreen;
+}
+/* line 63, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-title .not-should-grow-title {
+  color: #BA3B46;
+}
+/* line 67, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-cultures-list {
+  height: 500px;
+}
+/* line 69, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-cultures-list .grow-cultures-list-item {
+  border-radius: 4px;
+  float: left;
+  margin: 5px;
+  height: 150px;
+  width: 125px;
+  overflow: hidden;
+}
+/* line 76, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-cultures-list .grow-cultures-list-item .list-item-img {
+  height: 125px;
+}
+/* line 78, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-cultures-list .grow-cultures-list-item .list-item-img img {
+  height: 100%;
+  width: 100%;
+}
+/* line 83, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .grow-cultures-list .grow-cultures-list-item .list-item-title {
+  line-height: 25px;
+}
+/* line 89, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .should .grow-cultures-list-item {
+  border: 1px solid green;
+}
+/* line 94, ../../sass/Pages/index/partials/_bigger_description.scss */
+.grow .not-should .grow-cultures-list-item {
+  border: 1px solid #BA3B46;
+  background-color: #BA3B46;
+}
+
+/* line 102, ../../sass/Pages/index/partials/_bigger_description.scss */
+.field-photo {
+  height: 300px;
+}
+/* line 104, ../../sass/Pages/index/partials/_bigger_description.scss */
+.field-photo img {
+  height: 100%;
+  width: 100%;
+}
+
+/* line 110, ../../sass/Pages/index/partials/_bigger_description.scss */
+.chem-elem-desc {
+  height: 400px;
+  margin-top: 5px;
+}
+/* line 113, ../../sass/Pages/index/partials/_bigger_description.scss */
+.chem-elem-desc .modal-body {
+  padding-right: 15px;
+  padding-left: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+/* line 119, ../../sass/Pages/index/partials/_bigger_description.scss */
+.chem-elem-desc .panel {
+  width: 100%;
+}

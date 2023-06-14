@@ -1,0 +1,42 @@
+﻿@Html.Partial("_Navbar")
+
+<div class="container">
+    <h2>Введіть побажання:</h2>
+    <div ng-controller="RecomController">
+        <div>
+            Бажаний вміст гумусу (1-4 т/га)
+            <input type="range" min="1" max="4" value="1" />
+            Введіть id ділянки
+            <input ng-model="idModel" type="text" />
+            <button ng-click="LoadRecoms(idModel)">Розрахувати!</button>
+        </div>
+        <div>
+            Відповідь:
+            {{recomend}}
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = angular.module('app');
+
+    app.controller("RecomController", function ($scope, $http) {
+
+        $scope.LoadRecoms = function (id) {
+            var request = {
+                method: 'GET',
+                url: '/api/recommendation/getNew/' + id
+            }
+
+            console.log(request);
+            $http(request)
+                .then(function (recom) {
+                    $scope.recomend = recom.data;
+                },
+                function () {
+
+                });
+        }
+
+    });
+</script>

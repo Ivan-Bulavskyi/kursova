@@ -1,0 +1,36 @@
+.site-footer {
+    overflow: hidden;
+    float: left;
+    width: 410px;
+    bottom: 0;
+    position: absolute;
+    height: 10%;
+    .site-nav {
+        width: 100%;
+        float: left;
+        height: 50%;
+        overflow: hidden;
+        padding: 5% 0;
+        ul {
+            width: 100%;
+            li {
+                display: inline !important;
+                a{
+                    color: #777;
+                    margin-right: 10px;
+                }
+                a:first-child{
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+    footer {
+        height: 50%;
+        width: 100%;
+        float: left;
+        padding: 5px 10px;
+        font-size: 1.1rem;
+        color: #777;
+    }
+}
